@@ -13,7 +13,35 @@
             --glass: rgba(255, 255, 255, 0.03);
             --glass-border: rgba(255, 255, 255, 0.1);
         }
+            /* Portrait orientation (Vertical) */
+             @media (orientation: portrait) {
+              body {
+           flex-direction: column;
+            }
+             .sidebar {
+          width: 100%;
+    height: auto;
+  }
+  .main-content {
+    width: 100%;
+  }
+}
 
+/* Landscape orientation (Horizontal) */
+@media (orientation: landscape) {
+  body {
+    flex-direction: row;
+  }
+  .sidebar {
+    width: 30%;
+    height: 100vh;
+  }
+  .main-content {
+    width: 70%;
+  }
+}
+        
+        
         * {
             margin: 0;
             padding: 0;
@@ -314,7 +342,7 @@
             margin-top: 2rem;
         }
         .gallery-card {
-            height: 220px;
+            height: 290px;
             padding: 0;
             display: flex;
             align-items: center;
@@ -712,13 +740,17 @@
         <h2 style="margin-top: 6rem; font-size: 2rem;">Portfolio & Achievements Gallery</h2>
         <div class="gallery-container">
             <div class="glass-card gallery-card">
-                <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=400&auto=format&fit=crop" alt="Gallery Item 1">
+                <img src="https://i.ibb.co/rRmRhKyt/file-0000000067b87207a3b4bbdce0d0f753.png" alt="Gallery Item 1">
+                </div>
+        <div class="gallery-container">
+            <div class="glass-card gallery-card">
+                <img src="https://i.ibb.co/XZN8VTG0/IMG-20260615-WA0006.jpg" alt="Gallery Item 2">
             </div>
             <div class="glass-card gallery-card">
-                <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=400&auto=format&fit=crop" alt="Gallery Item 2">
+                <img src="https://i.ibb.co/GvyVsZqx/IMG-20260614-WA0005.jpg" alt="Gallery Item 3">
             </div>
             <div class="glass-card gallery-card">
-                <img src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?q=80&w=400&auto=format&fit=crop" alt="Gallery Item 3">
+                <img src="https://i.ibb.co/YF8KpdjD/IMG-20260615-WA0005.jpg" alt="Gallery Item 4">
             </div>
         </div>
     </section>
