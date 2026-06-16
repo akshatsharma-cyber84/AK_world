@@ -213,6 +213,44 @@
         }
 
         /* Hero Section */
+        .hero-logo-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.hero-logo {
+    width: 100%;
+    max-width: 900px;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    filter: drop-shadow(0 0 20px rgba(0,243,255,0.35));
+}
+
+/* Tablets */
+@media (max-width: 992px) {
+    .hero-logo {
+        max-width: 700px;
+    }
+}
+
+/* Mobile Portrait */
+@media (max-width: 768px) {
+    .hero-logo {
+        max-width: 95%;
+    }
+}
+
+/* Small Phones */
+@media (max-width: 480px) {
+    .hero-logo {
+        max-width: 100%;
+    }
+}
+        
         .hero {
             text-align: center;
             position: relative;
@@ -695,7 +733,223 @@
             font-size: 0.9rem;
             letter-spacing: 1px;
         }
+       /* ===================================
+   AK PROFESSIONAL DRAWER NAVIGATION
+=================================== */
 
+.ak-menu-btn{
+    position:fixed;
+    top:20px;
+    right:20px;
+    width:55px;
+    height:55px;
+    z-index:10050;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    gap:6px;
+
+    cursor:pointer;
+
+    background:rgba(10,10,10,.85);
+    backdrop-filter:blur(15px);
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:14px;
+
+    transition:.3s;
+}
+
+.ak-menu-btn:hover{
+    border-color:var(--neon);
+    box-shadow:0 0 20px rgba(0,243,255,.4);
+}
+
+.ak-line{
+    width:24px;
+    height:2px;
+    background:white;
+    transition:.3s;
+}
+
+.ak-menu-btn.active .ak-line:nth-child(1){
+    transform:rotate(45deg) translateY(8px);
+}
+
+.ak-menu-btn.active .ak-line:nth-child(2){
+    opacity:0;
+}
+
+.ak-menu-btn.active .ak-line:nth-child(3){
+    transform:rotate(-45deg) translateY(-8px);
+}
+
+.ak-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    backdrop-filter:blur(8px);
+
+    opacity:0;
+    visibility:hidden;
+
+    transition:.4s;
+
+    z-index:10040;
+}
+
+.ak-overlay.show{
+    opacity:1;
+    visibility:visible;
+}
+
+.ak-drawer{
+    position:fixed;
+    top:0;
+    right:0;
+
+    width:380px;
+    max-width:100%;
+    height:100vh;
+
+    background:rgba(10,10,10,.95);
+
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+
+    border-left:1px solid rgba(255,255,255,.08);
+
+    transform:translateX(100%);
+    transition:.45s cubic-bezier(.4,0,.2,1);
+
+    z-index:10045;
+
+    display:flex;
+    flex-direction:column;
+}
+
+.ak-drawer.show{
+    transform:translateX(0);
+}
+
+.ak-header{
+    padding:30px;
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.ak-header h3{
+    color:var(--neon);
+    font-size:1.5rem;
+}
+
+.ak-content{
+    flex:1;
+    overflow:auto;
+    padding:25px;
+}
+
+.ak-library-btn{
+    width:100%;
+    padding:18px;
+
+    background:rgba(255,255,255,.03);
+
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:16px;
+
+    color:white;
+    cursor:pointer;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    transition:.3s;
+}
+
+.ak-library-btn:hover{
+    border-color:var(--neon);
+}
+
+.ak-library-content{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .4s ease;
+}
+
+.ak-library-content.show{
+    max-height:500px;
+}
+
+.ak-library-box{
+    margin-top:15px;
+
+    padding:20px;
+
+    border-radius:16px;
+
+    background:rgba(255,255,255,.03);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    color:#c0c0c0;
+    line-height:1.8;
+}
+
+.ak-contact-wrap{
+    padding:25px;
+}
+
+.ak-contact-btn{
+    display:block;
+    width:100%;
+
+    text-align:center;
+    text-decoration:none;
+
+    padding:18px;
+
+    border-radius:50px;
+
+    background:var(--neon);
+    color:black;
+
+    font-weight:700;
+    letter-spacing:1px;
+
+    transition:.3s;
+}
+
+.ak-contact-btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 0 25px rgba(0,243,255,.5);
+}
+
+/* Mobile Portrait */
+
+@media(max-width:768px){
+
+    .ak-drawer{
+        width:100%;
+    }
+
+    .ak-menu-btn{
+        top:15px;
+        right:15px;
+    }
+}
+
+/* Landscape Mobile */
+
+@media (orientation:landscape) and (max-height:600px){
+
+    .ak-drawer{
+        width:340px;
+    }
+
+} 
+        
         /* Responsive Breakpoints */
         @media (max-width: 768px) {
             .hero h1 { font-size: 2.8rem; }
@@ -705,6 +959,9 @@
             .bottom-nav { gap: 30px; padding: 10px 20px; }
             .hero-btns { flex-direction: column; width: 100%; max-width: 280px; margin: 0 auto 3rem auto; }
         }
+   
+        
+        
     </style>
 </head>
 <body>
@@ -721,11 +978,81 @@
     <div class="cursor-outline" id="cursorOutline"></div>
 
     <div class="particles" id="particlesContainer"></div>
+    
+    <!-- AK MENU -->
 
+<div class="ak-menu-btn" id="akMenuBtn">
+    <span class="ak-line"></span>
+    <span class="ak-line"></span>
+    <span class="ak-line"></span>
+</div>
+
+<div class="ak-overlay" id="akOverlay"></div>
+
+<div class="ak-drawer" id="akDrawer">
+
+    <div class="ak-header">
+        <h3>AK MENU</h3>
+    </div>
+
+    <div class="ak-content">
+
+        <button class="ak-library-btn" id="akLibraryBtn">
+
+            <span>AK Library</span>
+
+            <i class="fas fa-chevron-down"></i>
+
+        </button>
+
+        <div class="ak-library-content" id="akLibraryContent">
+
+            <div class="ak-library-box">
+
+                Welcome to AK Library.
+
+                Essentials:
+                <br><br>
+
+                • Don't hesitate to Contact😇️<br>
+                • Link for Book👇️<br>
+                • https://pdf.ac/9jNPJvKwt<br>
+                • Projects seeker🤩️<br>
+                • Portfolio Resources🧑‍💻️<br>
+                • Contact for making your space📲️
+
+            </div>
+        
+           
+        </div>
+
+    </div>
+
+    <div class="ak-contact-wrap">
+
+        <a href="#contact"
+           class="ak-contact-btn"
+           id="akContactBtn">
+
+            Contact Us
+
+        </a>
+
+    </div>
+
+</div>
+    
+    
     <section id="home" class="hero section-reveal">
-        <h1 class="typed-title">WELCOME  TO  THE  WORLD  OF  AK</h1>
-        <p class="intro">I AM AK</p>
-        <p class="bio">Technology is more than a skill—it is a tool for solving problems, creating possibilities, and helping people. AK combines creativity, technical knowledge, and digital innovation to build impactful solutions across multiple domains.</p>
+        <div class="hero-logo-container">
+    <img 
+        src="https://i.ibb.co/cKh5DG91/file-000000000188722f9b5a3baedaccc30a.png"
+        alt="Welcome To The World Of AK"
+        class="hero-logo"
+    >
+</div>
+        <p class="intro">Welcome to World of AK</p>
+        <p class="bio">I am Akshat--Technology is more than a skill—it is a tool for solving problems, creating possibilities, and helping people. AK combines creativity, technical knowledge, and digital innovation to build impactful solutions across multiple domains.</p>
         
         <div class="hero-btns">
             <a href="#roles" class="btn btn-primary">My Roles</a>
@@ -825,7 +1152,7 @@
     </section>
 
     <footer>
-        <p>© 2026 AK Industries. All rights reserved.</p>
+        <p>© 2026 AK Industries Founder-Akshat Sharma. All rights reserved.</p>
     </footer>
 
     <a href="#home" class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></a>
@@ -986,19 +1313,7 @@
         });
 
         // Typing Effect simulation for Title
-        const typedTitle = document.querySelector('.typed-title');
-        const originalText = typedTitle.innerText;
-        typedTitle.innerText = '';
-        let charIndex = 0;
-        function typeEffect() {
-            if(charIndex < originalText.length) {
-                typedTitle.innerText += originalText.charAt(charIndex);
-                charIndex++;
-                if(charIndex % 3 === 0) playFuturisticTone(330, 'triangle', 0.03);
-                setTimeout(typeEffect, 70);
-            }
-        }
-        setTimeout(typeEffect, 800);
+        
 
         // Bottom Navigation States
         const navItems = document.querySelectorAll('.nav-item');
@@ -1087,6 +1402,51 @@
                 document.body.style.overflow = 'auto';
             }, 1500);
         }
+        /* ===================================
+   AK DRAWER NAVIGATION FIX
+=================================== */
+
+const akMenuBtn = document.getElementById("akMenuBtn");
+const akDrawer = document.getElementById("akDrawer");
+const akOverlay = document.getElementById("akOverlay");
+const akLibraryBtn = document.getElementById("akLibraryBtn");
+const akLibraryContent = document.getElementById("akLibraryContent");
+const akContactBtn = document.getElementById("akContactBtn");
+
+function akOpenMenu() {
+    akDrawer.classList.add("show");
+    akOverlay.classList.add("show");
+    akMenuBtn.classList.add("active");
+}
+
+function akCloseMenu() {
+    akDrawer.classList.remove("show");
+    akOverlay.classList.remove("show");
+    akMenuBtn.classList.remove("active");
+}
+
+if (akMenuBtn) {
+    akMenuBtn.addEventListener("click", () => {
+        akDrawer.classList.contains("show")
+            ? akCloseMenu()
+            : akOpenMenu();
+    });
+}
+
+if (akOverlay) {
+    akOverlay.addEventListener("click", akCloseMenu);
+}
+
+if (akLibraryBtn) {
+    akLibraryBtn.addEventListener("click", () => {
+        akLibraryContent.classList.toggle("show");
+    });
+}
+
+if (akContactBtn) {
+    akContactBtn.addEventListener("click", akCloseMenu);
+}
+        
     </script>
 </body>
 </html>
