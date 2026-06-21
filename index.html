@@ -1,1452 +1,1088 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome To The World Of AK</title>
+    
+    <!-- Google Fonts & FontAwesome for Premium Typography & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    
+    <!-- Custom Enhanced Styles preserving original CSS structure while adding modern enhancements -->
     <style>
-        :root {
-            --neon: #00f3ff;
-            --neon-pink: #ff0055;
-            --bg: #050505;
-            --glass: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.1);
-        }
-            /* Portrait orientation (Vertical) */
-             @media (orientation: portrait) {
-              body {
-           flex-direction: column;
-            }
-             .sidebar {
-          width: 100%;
-    height: auto;
-  }
-  .main-content {
-    width: 100%;
-  }
-}
-
-/* Landscape orientation (Horizontal) */
-@media (orientation: landscape) {
-  body {
-    flex-direction: row;
-  }
-  .sidebar {
-    width: 30%;
-    height: 100vh;
-  }
-  .main-content {
-    width: 70%;
-  }
-}
-        
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            scroll-behavior: smooth;
-        }
-
         body {
-            background: var(--bg);
-            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            background-color: #090d16;
+            color: #f8fafc;
             overflow-x: hidden;
-            position: relative;
         }
 
-        /* Custom Cursor */
-        .cursor-dot, .cursor-outline {
-            position: fixed;
-            top: 0;
-            left: 0;
-            transform: translate(-50%, -50%);
-            border-radius: 50%;
-            z-index: 10000;
+        .code-font {
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* Custom scrollbar for an enhanced UI experience */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #090d16;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 5px;
+            border: 2px solid #090d16;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #06b6d4;
+        }
+
+        /* Animated background glow meshes */
+        .glow-orb-1 {
+            position: absolute;
+            top: -100px;
+            left: -100px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(6,182,212,0.12) 0%, rgba(9,13,22,0) 75%);
+            z-index: 0;
             pointer-events: none;
-            transition: transform 0.1s ease, background-color 0.3s ease;
         }
-        .cursor-dot { width: 6px; height: 6px; background: var(--neon); }
-        .cursor-outline { width: 40px; height: 40px; border: 1px solid var(--neon); background: transparent; transition: transform 0.3s ease, border-color 0.3s ease; }
-        body:hover .cursor-outline { transform: translate(-50%, -50%) scale(1.2); }
-
-        /* Scroll Progress Bar */
-        .progress-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--neon), var(--neon-pink));
-            width: 0%;
-            z-index: 9999;
-            transition: width 0.1s ease-out;
-        }
-
-        /* Loading Animation */
-        #loader {
-            position: fixed;
-            inset: 0;
-            background: var(--bg);
-            z-index: 10005;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.5s ease;
-        }
-        .spinner {
-            width: 60px;
-            height: 60px;
-            border: 4px solid var(--glass-border);
-            border-top: 4px solid var(--neon);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            box-shadow: 0 0 20px var(--neon);
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Floating Background Particles & Tech Icons */
-        .particles {
+        .glow-orb-2 {
             position: absolute;
-            inset: 0;
-            overflow: hidden;
-            z-index: -1;
-            opacity: 0.5;
+            top: 35%;
+            right: -150px;
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(147,51,234,0.12) 0%, rgba(9,13,22,0) 75%);
+            z-index: 0;
+            pointer-events: none;
         }
-        .particle, .floating-icon {
+        .glow-orb-3 {
             position: absolute;
-            animation: floatParticle 15s infinite linear;
-        }
-        .particle {
-            width: 4px;
-            height: 4px;
-            background: var(--neon);
-            border-radius: 50%;
-        }
-        .floating-icon {
-            font-size: 24px;
-            color: var(--glass-border);
-            animation-duration: 22s;
-        }
-        @keyframes floatParticle {
-            0% { transform: translateY(105vh) translateX(0); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-5vh) translateX(50px); opacity: 0; }
+            bottom: 10%;
+            left: -100px;
+            width: 650px;
+            height: 650px;
+            background: radial-gradient(circle, rgba(59,130,246,0.12) 0%, rgba(9,13,22,0) 75%);
+            z-index: 0;
+            pointer-events: none;
         }
 
-        /* Glassmorphic Base Styles */
+        /* Float animation for hero elements */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(0.5deg); }
+        }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Pulse animation for glowing borders */
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 15px rgba(6, 182, 212, 0.3); }
+            50% { box-shadow: 0 0 30px rgba(6, 182, 212, 0.6); }
+        }
+        .pulse-glow {
+            animation: pulseGlow 3s infinite;
+        }
+
+        /* Glassmorphism utility */
         .glass-card {
-            background: var(--glass);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 2.5rem;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.4s, box-shadow 0.4s;
-        }
-        .glass-card::before {
-            content: '';
-            position: absolute;
-            inset: -2px;
-            background: linear-gradient(45deg, transparent, var(--neon), transparent);
-            border-radius: 24px;
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.5s;
+            background: rgba(30, 41, 59, 0.45);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
         .glass-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--neon);
-            box-shadow: 0 0 30px rgba(0, 243, 255, 0.2);
+            background: rgba(30, 41, 59, 0.6);
+            border-color: rgba(6, 182, 212, 0.4);
         }
-        .glass-card:hover::before { opacity: 1; }
 
-        section {
-            padding: 8rem 2rem;
-            min-height: 100vh;
+        /* ==================== AK MENU DRAWER SYSTEM ==================== */
+        .ak-menu-btn {
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
-        section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        h2 {
-            font-size: 3rem;
-            margin-bottom: 3rem;
-            text-align: center;
-            letter-spacing: 2px;
-            background: linear-gradient(90deg, #fff, var(--neon));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            justify-content: space-between;
+            width: 32px;
+            height: 22px;
+            cursor: pointer;
+            z-index: 50;
             position: relative;
-            text-transform: uppercase;
+            transition: transform 0.3s ease;
         }
-        h2::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
+        .ak-menu-btn:hover {
+            transform: scale(1.05);
+        }
+        .ak-line {
+            width: 100%;
             height: 3px;
-            background: var(--neon);
+            background-color: #f8fafc;
             border-radius: 2px;
-            box-shadow: 0 0 10px var(--neon);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        /* Hamburger to X transform */
+        .ak-menu-btn.active .ak-line:nth-child(1) {
+            transform: translateY(9px) rotate(45deg);
+            background-color: #06b6d4;
+        }
+        .ak-menu-btn.active .ak-line:nth-child(2) {
+            opacity: 0;
+            transform: translateX(-10px);
+        }
+        .ak-menu-btn.active .ak-line:nth-child(3) {
+            transform: translateY(-10px) rotate(-45deg);
+            background-color: #06b6d4;
         }
 
-        /* Hero Section */
-        .hero-logo-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 2rem;
-}
-
-.hero-logo {
-    width: 100%;
-    max-width: 900px;
-    height: auto;
-    object-fit: contain;
-    display: block;
-    filter: drop-shadow(0 0 20px rgba(0,243,255,0.35));
-}
-
-/* Tablets */
-@media (max-width: 992px) {
-    .hero-logo {
-        max-width: 700px;
-    }
-}
-
-/* Mobile Portrait */
-@media (max-width: 768px) {
-    .hero-logo {
-        max-width: 95%;
-    }
-}
-
-/* Small Phones */
-@media (max-width: 480px) {
-    .hero-logo {
-        max-width: 100%;
-    }
-}
-        
-        .hero {
-            text-align: center;
-            position: relative;
-            padding-top: 4rem;
+        /* AK Overlay */
+        .ak-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(9, 13, 22, 0.85);
+            backdrop-filter: blur(12px);
+            z-index: 45;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .hero h1 {
-            font-size: 4rem;
-            margin-bottom: 1.5rem;
+        .ak-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* AK Drawer */
+        .ak-drawer {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 380px;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(24px);
+            border-left: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 48;
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            padding: 2.5rem 2rem;
+            box-shadow: -15px 0 40px rgba(0, 0, 0, 0.6);
+        }
+        @media (max-width: 440px) {
+            .ak-drawer {
+                width: 100%;
+                right: -100%;
+            }
+        }
+        .ak-drawer.active {
+            right: 0;
+        }
+
+        /* AK Drawer Header */
+        .ak-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .ak-header h3 {
+            font-family: 'Fira Code', monospace;
+            font-size: 1.5rem;
             font-weight: 800;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            background: linear-gradient(90deg, #ffffff, var(--neon), #ffffff);
-            background-size: 200% auto;
-            animation: gradientText 6s ease infinite;
+            background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 12px rgba(0, 243, 255, 0.3));
-        }
-        @keyframes gradientText {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        .hero .intro {
-            font-size: 2.2rem;
-            color: var(--neon);
-            margin-bottom: 2rem;
-            font-weight: 600;
-            letter-spacing: 2px;
-        }
-        .hero .bio {
-            max-width: 800px;
-            font-size: 1.2rem;
-            line-height: 1.8;
-            color: #a0a0a0;
-            margin-bottom: 3rem;
-        }
-        .hero-btns {
-            display: flex;
-            gap: 1.5rem;
-            margin-bottom: 4rem;
-            justify-content: center;
-        }
-        .btn {
-            padding: 1rem 2.5rem;
-            border-radius: 50px;
-            font-weight: 600;
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: none;
-            position: relative;
-            overflow: hidden;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .btn-primary {
-            background: var(--neon);
-            color: #000;
-            box-shadow: 0 0 15px rgba(0, 243, 255, 0.4);
-        }
-        .btn-primary:hover {
-            box-shadow: 0 0 25px rgba(0, 243, 255, 0.8);
-            transform: translateY(-2px);
-        }
-        .btn-outline {
-            background: transparent;
-            color: #fff;
-            border: 1px solid var(--glass-border);
-        }
-        .btn-outline:hover {
-            border-color: #fff;
-            background: rgba(255,255,255,0.1);
-            transform: translateY(-2px);
-        }
-        
-        .profile-area {
-            position: relative;
-            display: inline-block;
-        }
-        .profile-img {
-            width: 220px;
-            height: 220px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid var(--glass-border);
-            box-shadow: 0 0 30px rgba(0,0,0,0.5);
-            transition: border-color 0.5s, box-shadow 0.5s;
-        }
-        .profile-img:hover {
-            border-color: var(--neon);
-            box-shadow: 0 0 40px rgba(0, 243, 255, 0.4);
-        }
-        .badge-wizard {
-            position: absolute;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(5, 5, 5, 0.8);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            color: var(--neon);
-            padding: 0.6rem 1.2rem;
-            border-radius: 30px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            letter-spacing: 1.5px;
-            border: 1px solid var(--neon);
-            box-shadow: 0 0 12px var(--neon);
-            white-space: nowrap;
-            animation: pulseBadge 2s infinite alternate;
-        }
-        @keyframes pulseBadge {
-            0% { box-shadow: 0 0 8px var(--neon); }
-            100% { box-shadow: 0 0 20px var(--neon); }
+            letter-spacing: 0.1em;
         }
 
-        /* Gallery Section */
-        .gallery-container {
-            width: 100%;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-        .gallery-card {
-            height: 290px;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #666;
-            font-size: 1.1rem;
-            border: 1px dashed var(--glass-border);
-            background: rgba(255, 255, 255, 0.01);
-        }
-        .gallery-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 24px;
-            transition: transform 0.5s;
-        }
-        .gallery-card:hover img { transform: scale(1.05); }
-        .gallery-card:hover { border-color: var(--neon); }
-
-        /* Roles Section */
-        .role-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2.5rem;
-            width: 100%;
-        }
-        .role-card {
-            text-align: left;
-            cursor: pointer;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-        .role-icon {
-            font-size: 2.5rem;
-            color: var(--neon);
-            margin-bottom: 1.5rem;
-        }
-        .role-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-        .role-card p {
-            color: #b0b0b0;
-            line-height: 1.6;
-            font-size: 1rem;
+        /* AK Content & Library Accordion */
+        .ak-content {
             flex-grow: 1;
-        }
-        .role-card .learn-more {
-            margin-top: 1.5rem;
-            color: var(--neon);
-            font-weight: 600;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .role-card:hover .learn-more { gap: 14px; transition: gap 0.3s; }
-
-        /* Modal / Detailed Overlay */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(5, 5, 5, 0.85);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            z-index: 10000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.4s, visibility 0.4s;
-            padding: 2rem;
-        }
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        .modal-content {
-            width: 100%;
-            max-width: 800px;
-            max-height: 85vh;
             overflow-y: auto;
-            background: rgba(15, 15, 15, 0.95);
-            border: 1px solid var(--neon);
-            border-radius: 24px;
-            padding: 3rem;
-            position: relative;
-            box-shadow: 0 0 50px rgba(0, 243, 255, 0.2);
-            transform: scale(0.9);
-            transition: transform 0.4s;
+            margin-bottom: 2rem;
         }
-        .modal-overlay.active .modal-content { transform: scale(1); }
-        .modal-close {
-            position: absolute;
-            top: 25px;
-            right: 30px;
-            font-size: 1.8rem;
+        .ak-library-btn {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem;
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 1rem;
+            color: #f8fafc;
+            font-weight: 700;
             cursor: pointer;
-            color: #888;
-            transition: color 0.3s;
-        }
-        .modal-close:hover { color: var(--neon-pink); }
-        .modal-img {
-            width: 100%;
-            height: 280px;
-            object-fit: cover;
-            border-radius: 16px;
-            margin-bottom: 2rem;
-            border: 1px solid var(--glass-border);
-        }
-        .modal-title {
-            font-size: 2.2rem;
-            margin-bottom: 1rem;
-            color: var(--neon);
-        }
-        .modal-desc {
-            color: #ccc;
-            line-height: 1.8;
-            margin-bottom: 2rem;
-            font-size: 1.1rem;
-        }
-        .modal-subtitle {
-            font-size: 1.3rem;
-            margin-bottom: 0.8rem;
-            color: #fff;
-            border-bottom: 1px solid var(--glass-border);
-            padding-bottom: 0.4rem;
-            display: inline-block;
-        }
-        .modal-list {
-            list-style-type: none;
-            margin-bottom: 2rem;
-        }
-        .modal-list li {
-            color: #aaa;
-            padding: 6px 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .modal-list li::before {
-            content: "▹";
-            color: var(--neon);
-            font-weight: bold;
-        }
-
-        /* Contact Section */
-        .contact-desc {
-            text-align: center;
-            color: #a0a0a0;
-            margin-bottom: 3rem;
-            max-width: 600px;
-            line-height: 1.6;
-        }
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 2rem;
-            width: 100%;
-        }
-        .contact-card {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-decoration: none;
-            color: #fff;
-            padding: 3rem 2rem;
-            text-align: center;
-        }
-        .contact-card i {
-            font-size: 3rem;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, var(--neon), #60efff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .contact-card span {
-            font-size: 1.1rem;
-            word-break: break-all;
-            color: #ccc;
-            transition: color 0.3s;
-        }
-        .contact-card:hover span { color: var(--neon); }
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-top: 4rem;
-            width: 100%;
-        }
-        .social-icon-btn {
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            color: #fff;
-            font-size: 1.5rem;
-            text-decoration: none;
             transition: all 0.3s ease;
         }
-        .social-icon-btn:hover {
-            border-color: var(--neon);
-            color: var(--neon);
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
-            transform: translateY(-5px);
+        .ak-library-btn:hover {
+            border-color: rgba(6, 182, 212, 0.4);
+            background: rgba(30, 41, 59, 0.8);
+            box-shadow: 0 4px 20px rgba(6, 182, 212, 0.1);
+        }
+        .ak-library-btn i {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .ak-library-btn.active i {
+            transform: rotate(180deg);
+            color: #06b6d4;
+        }
+        .ak-library-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-top: 0.75rem;
+        }
+        .ak-library-content.active {
+            max-height: 500px;
+        }
+        .ak-library-box {
+            padding: 1.5rem;
+            background: rgba(9, 13, 22, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 1rem;
+            font-size: 0.925rem;
+            line-height: 1.7;
+            color: #cbd5e1;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5);
         }
 
-        /* Mobile App-Style Bottom Navigation */
-        .bottom-nav {
-            position: fixed;
-            bottom: 25px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(10, 10, 10, 0.65);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            padding: 12px 35px;
-            border-radius: 50px;
-            display: flex;
-            gap: 45px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            z-index: 9990;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+        /* Contact Wrap inside Drawer */
+        .ak-contact-wrap {
+            margin-top: auto;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
         }
-        .nav-item {
-            color: #888;
-            font-size: 1.25rem;
-            text-decoration: none;
-            transition: color 0.3s, transform 0.3s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-        }
-        .nav-item span { font-size: 0.65rem; letter-spacing: 1px; font-weight: 600; text-transform: uppercase; }
-        .nav-item:hover, .nav-item.active {
-            color: var(--neon);
-            transform: translateY(-3px);
-            filter: drop-shadow(0 0 8px var(--neon));
-        }
-
-        /* Visitor Recognition Popup */
-        .popup-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.4);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            z-index: 10002;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
-            padding: 2rem;
-        }
-        .popup-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        .popup-card {
+        .ak-contact-btn {
+            display: block;
             width: 100%;
-            max-width: 460px;
             text-align: center;
-            background: rgba(10, 10, 10, 0.92);
-            border: 1px solid var(--neon);
-            box-shadow: 0 0 40px rgba(0, 243, 255, 0.15);
-            padding: 2.5rem;
-            border-radius: 24px;
-        }
-        .popup-card h3 {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            color: var(--neon);
-        }
-        .popup-card p {
-            color: #aaa;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin-bottom: 1.8rem;
-        }
-        .popup-form {
-            display: flex;
-            flex-direction: column;
-            gap: 1.2rem;
-        }
-        .popup-form input {
-            width: 100%;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            padding: 1rem 1.2rem;
-            color: #fff;
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-        .popup-form input:focus { border-color: var(--neon); }
-        .popup-form button { margin-top: 0.5rem; }
-
-        /* Back to Top Button */
-        .back-to-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
-            background: rgba(10, 10, 10, 0.8);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 50%;
-            color: var(--neon);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            opacity: 0;
-            visibility: hidden;
+            background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+            color: #090d16;
+            font-weight: 800;
+            padding: 1.1rem;
+            border-radius: 1rem;
             transition: all 0.3s ease;
-            z-index: 9980;
-            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.25);
         }
-        .back-to-top.visible {
-            opacity: 1;
-            visibility: visible;
+        .ak-contact-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(6, 182, 212, 0.45);
+            filter: brightness(1.1);
         }
-        .back-to-top:hover {
-            border-color: var(--neon);
-            box-shadow: 0 0 15px rgba(0, 243, 255, 0.4);
-            transform: translateY(-4px);
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 3rem 1rem 6rem 1rem;
-            border-top: 1px solid var(--glass-border);
-            background: rgba(5,5,5,0.4);
-            color: #666;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-        }
-       /* ===================================
-   AK PROFESSIONAL DRAWER NAVIGATION
-=================================== */
-
-.ak-menu-btn{
-    position:fixed;
-    top:20px;
-    right:20px;
-    width:55px;
-    height:55px;
-    z-index:10050;
-
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    gap:6px;
-
-    cursor:pointer;
-
-    background:rgba(10,10,10,.85);
-    backdrop-filter:blur(15px);
-    border:1px solid rgba(255,255,255,.1);
-    border-radius:14px;
-
-    transition:.3s;
-}
-
-.ak-menu-btn:hover{
-    border-color:var(--neon);
-    box-shadow:0 0 20px rgba(0,243,255,.4);
-}
-
-.ak-line{
-    width:24px;
-    height:2px;
-    background:white;
-    transition:.3s;
-}
-
-.ak-menu-btn.active .ak-line:nth-child(1){
-    transform:rotate(45deg) translateY(8px);
-}
-
-.ak-menu-btn.active .ak-line:nth-child(2){
-    opacity:0;
-}
-
-.ak-menu-btn.active .ak-line:nth-child(3){
-    transform:rotate(-45deg) translateY(-8px);
-}
-
-.ak-overlay{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.45);
-    backdrop-filter:blur(8px);
-
-    opacity:0;
-    visibility:hidden;
-
-    transition:.4s;
-
-    z-index:10040;
-}
-
-.ak-overlay.show{
-    opacity:1;
-    visibility:visible;
-}
-
-.ak-drawer{
-    position:fixed;
-    top:0;
-    right:0;
-
-    width:380px;
-    max-width:100%;
-    height:100vh;
-
-    background:rgba(10,10,10,.95);
-
-    backdrop-filter:blur(20px);
-    -webkit-backdrop-filter:blur(20px);
-
-    border-left:1px solid rgba(255,255,255,.08);
-
-    transform:translateX(100%);
-    transition:.45s cubic-bezier(.4,0,.2,1);
-
-    z-index:10045;
-
-    display:flex;
-    flex-direction:column;
-}
-
-.ak-drawer.show{
-    transform:translateX(0);
-}
-
-.ak-header{
-    padding:30px;
-    border-bottom:1px solid rgba(255,255,255,.08);
-}
-
-.ak-header h3{
-    color:var(--neon);
-    font-size:1.5rem;
-}
-
-.ak-content{
-    flex:1;
-    overflow:auto;
-    padding:25px;
-}
-
-.ak-library-btn{
-    width:100%;
-    padding:18px;
-
-    background:rgba(255,255,255,.03);
-
-    border:1px solid rgba(255,255,255,.08);
-    border-radius:16px;
-
-    color:white;
-    cursor:pointer;
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    transition:.3s;
-}
-
-.ak-library-btn:hover{
-    border-color:var(--neon);
-}
-
-.ak-library-content{
-    max-height:0;
-    overflow:hidden;
-    transition:max-height .4s ease;
-}
-
-.ak-library-content.show{
-    max-height:500px;
-}
-
-.ak-library-box{
-    margin-top:15px;
-
-    padding:20px;
-
-    border-radius:16px;
-
-    background:rgba(255,255,255,.03);
-
-    border:1px solid rgba(255,255,255,.08);
-
-    color:#c0c0c0;
-    line-height:1.8;
-}
-
-.ak-contact-wrap{
-    padding:25px;
-}
-
-.ak-contact-btn{
-    display:block;
-    width:100%;
-
-    text-align:center;
-    text-decoration:none;
-
-    padding:18px;
-
-    border-radius:50px;
-
-    background:var(--neon);
-    color:black;
-
-    font-weight:700;
-    letter-spacing:1px;
-
-    transition:.3s;
-}
-
-.ak-contact-btn:hover{
-    transform:translateY(-3px);
-    box-shadow:0 0 25px rgba(0,243,255,.5);
-}
-
-/* Mobile Portrait */
-
-@media(max-width:768px){
-
-    .ak-drawer{
-        width:100%;
-    }
-
-    .ak-menu-btn{
-        top:15px;
-        right:15px;
-    }
-}
-
-/* Landscape Mobile */
-
-@media (orientation:landscape) and (max-height:600px){
-
-    .ak-drawer{
-        width:340px;
-    }
-
-} 
-        
-        /* Responsive Breakpoints */
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2.8rem; }
-            .hero .intro { font-size: 1.6rem; }
-            section { padding: 5rem 1rem; }
-            h2 { font-size: 2.2rem; }
-            .bottom-nav { gap: 30px; padding: 10px 20px; }
-            .hero-btns { flex-direction: column; width: 100%; max-width: 280px; margin: 0 auto 3rem auto; }
-        }
-   
-        
-        
     </style>
 </head>
-<body>
+<body class="relative min-h-screen flex flex-col selection:bg-cyan-500 selection:text-black">
 
-    <audio id="subtle-sound" preload="auto"></audio>
+    <!-- Background glowing visual accents -->
+    <div class="glow-orb-1"></div>
+    <div class="glow-orb-2"></div>
+    <div class="glow-orb-3"></div>
 
-    <div id="loader">
-        <div class="spinner"></div>
-    </div>
-
-    <div class="progress-bar" id="progressBar"></div>
-
-    <div class="cursor-dot" id="cursorDot"></div>
-    <div class="cursor-outline" id="cursorOutline"></div>
-
-    <div class="particles" id="particlesContainer"></div>
-    
-    <!-- AK MENU -->
-
-<div class="ak-menu-btn" id="akMenuBtn">
-    <span class="ak-line"></span>
-    <span class="ak-line"></span>
-    <span class="ak-line"></span>
-</div>
-
-<div class="ak-overlay" id="akOverlay"></div>
-
-<div class="ak-drawer" id="akDrawer">
-
-    <div class="ak-header">
-        <h3>AK MENU</h3>
-    </div>
-
-    <div class="ak-content">
-
-        <button class="ak-library-btn" id="akLibraryBtn">
-
-            <span>AK Library</span>
-
-            <i class="fas fa-chevron-down"></i>
-
-        </button>
-
-        <div class="ak-library-content" id="akLibraryContent">
-
-            <div class="ak-library-box">
-
-                Welcome to AK Library.
-
-                Essentials:
-                <br><br>
-
-                • Don't hesitate to Contact😇️<br>
-                • Link for Book👇️<br>
-                • https://pdf.ac/9jNPJvKwt<br>
-                • Projects seeker🤩️<br>
-                • Portfolio Resources🧑‍💻️<br>
-                • Contact for making your space📲️
-
-            </div>
-        
-           
-        </div>
-
-    </div>
-
-    <div class="ak-contact-wrap">
-
-        <a href="#contact"
-           class="ak-contact-btn"
-           id="akContactBtn">
-
-            Contact Us
-
-        </a>
-
-    </div>
-
-</div>
-    
-    
-    <section id="home" class="hero section-reveal">
-        <div class="hero-logo-container">
-    <img 
-        src="https://i.ibb.co/cKh5DG91/file-000000000188722f9b5a3baedaccc30a.png"
-        alt="Welcome To The World Of AK"
-        class="hero-logo"
-    >
-</div>
-        <p class="intro">Welcome to World of AK</p>
-        <p class="bio">I am Akshat--Technology is more than a skill—it is a tool for solving problems, creating possibilities, and helping people. AK combines creativity, technical knowledge, and digital innovation to build impactful solutions across multiple domains.</p>
-        
-        <div class="hero-btns">
-            <a href="#roles" class="btn btn-primary">My Roles</a>
-            <a href="#contact" class="btn btn-outline">Contact</a>
-        </div>
-
-        <div class="profile-area">
-            <img src="https://i.ibb.co/FLGjpfdZ/IMG-20260527-WA0003-1.jpg" alt="AK Profile" class="profile-img">
-            <span class="badge-wizard">COMPUTER WIZARD</span>
-        </div>
-
-        <h2 style="margin-top: 6rem; font-size: 2rem;">Portfolio & Achievements Gallery</h2>
-        <div class="gallery-container">
-            <div class="glass-card gallery-card">
-                <img src="https://i.ibb.co/rRmRhKyt/file-0000000067b87207a3b4bbdce0d0f753.png" alt="Gallery Item 1">
-                </div>
-        <div class="gallery-container">
-            <div class="glass-card gallery-card">
-                <img src="https://i.ibb.co/XZN8VTG0/IMG-20260615-WA0006.jpg" alt="Gallery Item 2">
-            </div>
-            <div class="glass-card gallery-card">
-                <img src="https://i.ibb.co/GvyVsZqx/IMG-20260614-WA0005.jpg" alt="Gallery Item 3">
-            </div>
-            <div class="glass-card gallery-card">
-                <img src="https://i.ibb.co/YF8KpdjD/IMG-20260615-WA0005.jpg" alt="Gallery Item 4">
-            </div>
-        </div>
-    </section>
-
-    <section id="roles" class="section-reveal">
-        <h2>MY ROLES</h2>
-        <p class="contact-desc">Operating across multiple interconnected domains of technology, logical analysis, digital art, security, and structured imaginative writing.</p>
-        
-        <div class="role-grid">
-            <div class="glass-card role-card" onclick="openModal('Web Developer', 'https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?q=80&w=800&auto=format&fit=crop', 'Building responsive, modern, user-focused websites and web experiences with performance, design, and functionality in mind.', ['HTML5 / CSS3 / JavaScript', 'Modern Frameworks (React/Vue)', 'Responsive Web Design (RWD)', 'CSS Flexbox & Grid', 'Performance Optimization'])">
-                <i class="fas fa-code role-icon"></i>
-                <h3>Web Developer</h3>
-                <p>Building responsive, modern, user-focused websites and web experiences with performance, design, and functionality in mind.</p>
-                <div class="learn-more">Read More <i class="fas fa-chevron-right"></i></div>
-            </div>
-
-            <div class="glass-card role-card" onclick="openModal('Programmer', 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=800&auto=format&fit=crop', 'Developing logical solutions, automation systems, tools, and software concepts using programming principles and problem-solving skills.', ['Python, JavaScript, C++', 'Algorithm Design & Complexity', 'API Integration & Development', 'Workflow Automation Scripts', 'Data Parsing & Structures'])">
-                <i class="fas fa-terminal role-icon"></i>
-                <h3>Programmer</h3>
-                <p>Developing logical solutions, automation systems, tools, and software concepts using programming principles and problem-solving skills.</p>
-                <div class="learn-more">Read More <i class="fas fa-chevron-right"></i></div>
-            </div>
-
-            <div class="glass-card role-card" onclick="openModal('Graphics Designer', 'https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=800&auto=format&fit=crop', 'Creating visually engaging digital designs, branding concepts, posters, and creative assets with attention to detail and aesthetics.', ['Brand Identity & Logo Design', 'UI/UX Visual Prototyping', 'Vector Graphics & Illustration', 'Typography & Color Theory', 'Marketing & Promo Assets'])">
-                <i class="fas fa-palette role-icon"></i>
-                <h3>Graphics Designer</h3>
-                <p>Creating visually engaging digital designs, branding concepts, posters, and creative assets with attention to detail and aesthetics.</p>
-                <div class="learn-more">Read More <i class="fas fa-chevron-right"></i></div>
-            </div>
-
-            <div class="glass-card role-card" onclick="openModal('Ethical Hacker', 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800&auto=format&fit=crop', 'Understanding cybersecurity principles, identifying vulnerabilities, promoting secure digital practices, and encouraging responsible technology use.', ['Penetration Testing & Auditing', 'Vulnerability Assessment', 'Network Security Foundations', 'Cryptography Basics', 'Security Awareness & Hardening'])">
-                <i class="fas fa-user-secret role-icon"></i>
-                <h3>Ethical Hacker</h3>
-                <p>Understanding cybersecurity principles, identifying vulnerabilities, promoting secure digital practices, and encouraging responsible technology use.</p>
-                <div class="learn-more">Read More <i class="fas fa-chevron-right"></i></div>
-            </div>
-
-            <div class="glass-card role-card" onclick="openModal('Fictional Story Writer', 'https://images.unsplash.com/photo-1455390582262-044c8277a808?q=80&w=800&auto=format&fit=crop', 'Crafting imaginative stories, characters, fictional worlds, and compelling narratives that blend creativity with strategic storytelling.', ['World Building & Lore Conceptualization', 'Character Development & Arcs', 'Engaging Plot & Conflict Design', 'Script & Narrative Writing', 'Short Stories & Creative Prose'])">
-                <i class="fas fa-feather-pointed role-icon"></i>
-                <h3>Fictional Story Writer</h3>
-                <p>Crafting imaginative stories, characters, fictional worlds, and compelling narratives that blend creativity with strategic storytelling.</p>
-                <div class="learn-more">Read More <i class="fas fa-chevron-right"></i></div>
-            </div>
-        </div>
-    </section>
-
-    <section id="contact" class="section-reveal">
-        <h2>CONTACT AK</h2>
-        <p class="contact-desc">Have a question, an interesting project, or simply want to connect? Reach out through the primary channels below.</p>
-        
-        <div class="contact-grid">
-            <a href="mailto:aktestingid094@gmail.com" class="glass-card contact-card">
-                <i class="fas fa-envelope"></i>
-                <span>aktestingid094@gmail.com</span>
+    <!-- Navigation Bar (Enhanced Glassmorphism & Custom Elements) -->
+    <nav class="nav sticky top-0 z-40 w-full backdrop-blur-md bg-[#090d16]/85 border-b border-slate-800/80 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            
+            <!-- Logo Image in Upper Left Corner (Replaced previous brand text) -->
+            <a href="#home" class="flex items-center group">
+                <img 
+                    src="https://i.ibb.co/cKh5DG91/file-000000000188722f9b5a3baedaccc30a.png" 
+                    alt="AK Logo" 
+                    class="h-12 md:h-14 w-auto object-contain hover:scale-105 transition-all duration-300 filter drop-shadow-[0_0_8px_rgba(6,182,212,0.15)]"
+                >
             </a>
-            <a href="https://instagram.com/akzone84" target="_blank" class="glass-card contact-card">
-                <i class="fab fa-instagram"></i>
-                <span>@akzone84</span>
-            </a>
-             <a href="https://github.com/akshatsharma-cyber84" target="_blank" class="glass-card contact-card">
-                <i class="fab fa-github"></i>
-                <span>akshatsharma-cyber384</span>
-            </a>
+
+            <!-- Desktop Navigation Links -->
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+                <a href="#home" class="hover:text-cyan-400 transition-colors py-2">Home</a>
+                <a href="#roles" class="hover:text-cyan-400 transition-colors py-2">Roles</a>
+                <a href="#certificates" class="hover:text-cyan-400 transition-colors py-2">Certificates</a>
+                <a href="#contact" class="hover:text-cyan-400 transition-colors py-2">Contact</a>
+            </div>
+
+            <!-- AK MENU Hamburger Trigger (Replaced "Get in Touch" & mobile menu buttons) -->
+            <div class="ak-menu-btn" id="akMenuBtn" aria-label="Open Menu">
+                <span class="ak-line"></span>
+                <span class="ak-line"></span>
+                <span class="ak-line"></span>
+            </div>
         </div>
-
-        <div class="social-icons">
-            <a href="https://instagram.com/akzone84" target="_blank" class="social-icon-btn"><i class="fab fa-instagram"></i></a>
-            <a href="mailto:aktestingid094@gmail.com" class="social-icon-btn"><i class="fas fa-envelope"></i></a>
-            <a href="https://github.com/akshatsharma-cyber84" target="_blank" class="social-icon-btn"><i class="fab fa-github"></i></a>     
-            <a href="#" class="social-icon-btn"><i class="fas fa-code"></i></a>
-        </div>
-    </section>
-
-    <footer>
-        <p>© 2026 AK Industries Founder-Akshat Sharma. All rights reserved.</p>
-    </footer>
-
-    <a href="#home" class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></a>
-
-    <nav class="bottom-nav">
-        <a href="#home" class="nav-item active" onclick="setActiveNav(this)">
-            <i class="fas fa-home"></i>
-            <span>Home</span>
-        </a>
-        <a href="#roles" class="nav-item" onclick="setActiveNav(this)">
-            <i class="fas fa-briefcase"></i>
-            <span>Roles</span>
-        </a>
-        <a href="#contact" class="nav-item" onclick="setActiveNav(this)">
-            <i class="fas fa-paper-plane"></i>
-            <span>Contact</span>
-        </a>
     </nav>
 
-    <div class="modal-overlay" id="roleModal">
-        <div class="modal-content">
-            <i class="fas fa-times modal-close" onclick="closeModal()"></i>
-            <img id="modalImg" src="" alt="Role Illustration" class="modal-img">
-            <h3 id="modalTitle" class="modal-title"></h3>
-            <p id="modalDesc" class="modal-desc"></p>
-            
-            <h4 class="modal-subtitle">Core Proficiencies</h4>
-            <ul id="modalSkills" class="modal-list"></ul>
+    <!-- AK Menu Slide-out Drawer & Overlay Elements -->
+    <div class="ak-overlay" id="akOverlay"></div>
+    
+    <div class="ak-drawer" id="akDrawer">
+        <div class="ak-header flex items-center justify-between">
+            <h3>AK MENU</h3>
+            <!-- Secondary Drawer Close Trigger -->
+            <button onclick="closeDrawer()" class="text-slate-400 hover:text-white transition-colors p-1" aria-label="Close Drawer">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
 
-            <h4 class="modal-subtitle">Achievements & Milestones</h4>
-            <ul class="modal-list">
-                <li>Initial placeholder for upcoming awards and certificates.</li>
-                <li>Future portfolio items to be integrated here.</li>
-            </ul>
+        <div class="ak-content">
+            <!-- Library Collapsible Button -->
+            <button class="ak-library-btn" id="akLibraryBtn">
+                <span>AK Library</span>
+                <i class="fas fa-chevron-down text-sm"></i>
+            </button>
+            
+            <!-- Library Collapsible Content Box -->
+            <div class="ak-library-content" id="akLibraryContent">
+                <div class="ak-library-box whitespace-pre-line text-left">Welcome to AK Library.
+
+Essentials:
+
+• Don't hesitate to Contact😇️
+• Link for Book👇️
+• <a href="https://pdf.ac/9jNPJvKwt" target="_blank" class="text-cyan-400 hover:underline break-all">Gamma:The last Six</a>
+• Projects seeker🤩️
+• Portfolio Resources🧑‍💻️
+• Contact for making your space📲️</div>
+            </div>
+        </div>
+
+        <!-- Contact Trigger Button in Drawer -->
+        <div class="ak-contact-wrap">
+            <a href="#contact" class="ak-contact-btn animate-pulse" id="akContactBtn">
+                Contact Us
+            </a>
         </div>
     </div>
 
-    <div class="popup-overlay" id="visitorPopup">
-        <div class="popup-card">
-            <h3>Stay Connected With AK</h3>
-            <p>"Get updates, future projects, exclusive content, and technology insights from AK. Leave your details below so we can stay connected."</p>
-            
-            <form class="popup-form" action="https://formspree.io/f/xgobnrbj" method="POST" id="visitorForm" onsubmit="handleFormSubmit(event)">
-                <input type="text" name="Name" placeholder="Full Name" required autocomplete="name">
-                <input type="tel" name="Phone Number" placeholder="Phone Number" required autocomplete="tel">
-                <input type="hidden" name="Submission Date & Time" id="submissionTime">
+    <!-- Main Content Container -->
+    <main class="flex-grow">
+
+        <!-- Enhanced Hero Section (Logo removed to Navigation Top Left as requested) -->
+        <section id="home" class="hero section-reveal relative py-20 md:py-28 overflow-hidden">
+            <div class="max-w-7xl mx-auto px-6 relative z-10">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    
+                    <!-- Left Column: Bios & Introductions -->
+                    <div class="lg:col-span-7 space-y-8 text-center lg:text-left">
+                        <!-- Intro & Bio Text -->
+                        <div class="space-y-4">
+                            <p class="intro text-cyan-400 font-semibold tracking-widest uppercase text-base code-font" style="font-size: 190%;">
+                                Welcome to World of AK
+                            </p>
+                            <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-white leading-tight">
+                                Fusing <span class="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">Logic</span> & <span class="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">Creativity</span>
+                            </h1>
+                            <p class="bio text-slate-300 text-base md:text-lg leading-relaxed max-w-2xl mx-auto lg:mx-0 font-normal">
+                                I am Akshat--Technology is more than a skill—it is a tool for solving problems, creating possibilities, and helping people. AK combines creativity, technical knowledge, and digital innovation to build impactful solutions across multiple domains.
+                            </p>
+                        </div>
+
+                        <!-- Hero Buttons -->
+                        <div class="hero-btns flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                            <a href="#roles" class="btn btn-primary w-full sm:w-auto bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold py-4 px-8 rounded-xl shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/30 transition-all duration-300 text-center flex items-center justify-center gap-2">
+                                <span>My Roles</span>
+                                <i class="fas fa-angles-right text-xs"></i>
+                            </a>
+                            <a href="#contact" class="btn btn-outline w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-800 hover:border-slate-700 font-semibold py-4 px-8 rounded-xl transition-all duration-300 text-center flex items-center justify-center gap-2">
+                                <span>Contact Me</span>
+                                <i class="fas fa-envelope text-xs text-cyan-400"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Profile Image & Floating Badge -->
+                    <div class="lg:col-span-5 flex justify-center">
+                        <div class="profile-area relative group">
+                            <!-- Glowing Background Ring behind Image -->
+                            <div class="absolute -inset-2 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-600 rounded-3xl blur-xl opacity-40 group-hover:opacity-70 transition duration-1000 group-hover:duration-200"></div>
+                            
+                            <!-- Main Profile Container -->
+                            <div class="relative bg-slate-900 border-2 border-slate-800/80 rounded-3xl p-3 overflow-hidden shadow-2xl">
+                                <img 
+                                    src="https://i.ibb.co/FLGjpfdZ/IMG-20260527-WA0003-1.jpg" 
+                                    alt="AK Profile" 
+                                    class="profile-img w-72 h-96 md:w-80 md:h-[420px] object-cover rounded-2xl grayscale hover:grayscale-0 transition-all duration-500 ease-in-out"
+                                >
+                            </div>
+
+                            <!-- Glowing Wizard Badge -->
+                            <span class="badge-wizard absolute -bottom-4 left-1/2 transform -translate-x-1/2 bg-slate-950 text-cyan-400 border border-cyan-500/60 px-6 py-2 rounded-full text-xs md:text-sm font-black tracking-widest uppercase code-font shadow-2xl pulse-glow whitespace-nowrap">
+                                ⚡ COMPUTER WIZARD ⚡
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Roles / Domains Section -->
+        <section id="roles" class="page py-24 bg-slate-900/40 border-y border-slate-900 relative z-10">
+            <div class="max-w-7xl mx-auto px-6">
                 
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Join The AK Network</button>
-            </form>
+                <!-- Section Header -->
+                <div class="text-center max-w-3xl mx-auto mb-20">
+                    <h2 class="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight">
+                        Interconnected <span class="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Domains</span>
+                    </h2>
+                    <p class="text-slate-400 text-lg leading-relaxed">
+                        Explore my core roles. Click on any domain below to uncover specific technical capabilities, software practices, and creative competencies.
+                    </p>
+                </div>
+
+                <!-- Domains Cards Grid Container -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <!-- Card 1: Web Developer -->
+                    <div class="card group relative bg-slate-900/60 hover:bg-slate-900/90 border border-slate-800/80 hover:border-cyan-500/60 rounded-2xl p-8 cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(6,182,212,0.2)] flex flex-col justify-between overflow-hidden" 
+                         onclick="openModal('Web Developer', 'https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?q=80&w=800&auto=format&fit=crop', 'Building responsive, modern, user-focused websites and web experiences with performance, design, and functionality in mind.', ['HTML5 / CSS3 / JavaScript', 'Modern Frameworks (React/Vue)', 'Responsive Web Design (RWD)', 'CSS Flexbox & Grid', 'Performance Optimization'])">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-500 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div>
+                            <div class="w-14 h-14 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 text-2xl mb-6 group-hover:scale-110 group-hover:bg-cyan-500 group-hover:text-slate-950 transition-all duration-300 shadow-lg">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-4 group-hover:text-cyan-400 transition-colors">Web Developer</h3>
+                            <p class="text-slate-300 leading-relaxed mb-8 opacity-90">
+                                Building responsive, modern, user-focused websites and web experiences with performance, design, and functionality in mind.
+                            </p>
+                        </div>
+                        <p class="text-cyan-400 font-semibold flex items-center gap-2 group-hover:text-cyan-300 transition-colors mt-auto pt-4 border-t border-slate-800/80">
+                            Read More <i class="fas fa-arrow-right text-sm transition-transform duration-300 group-hover:translate-x-2"></i>
+                        </p>
+                    </div>
+
+                    <!-- Card 2: Programmer -->
+                    <div class="card group relative bg-slate-900/60 hover:bg-slate-900/90 border border-slate-800/80 hover:border-blue-500/60 rounded-2xl p-8 cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(59,130,246,0.2)] flex flex-col justify-between overflow-hidden" 
+                         onclick="openModal('Programmer', 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=800&auto=format&fit=crop', 'Developing logical solutions, automation systems, tools, and software concepts using programming principles and problem-solving skills.', ['Python, JavaScript, C++', 'Algorithm Design & Complexity', 'API Integration & Development', 'Workflow Automation Scripts', 'Data Parsing & Structures'])">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div>
+                            <div class="w-14 h-14 rounded-2xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 text-2xl mb-6 group-hover:scale-110 group-hover:bg-blue-500 group-hover:text-slate-950 transition-all duration-300 shadow-lg">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-4 group-hover:text-blue-400 transition-colors">Programmer</h3>
+                            <p class="text-slate-300 leading-relaxed mb-8 opacity-90">
+                                Developing logical solutions, automation systems, tools, and software concepts using programming principles and problem-solving skills.
+                            </p>
+                        </div>
+                        <p class="text-blue-400 font-semibold flex items-center gap-2 group-hover:text-blue-300 transition-colors mt-auto pt-4 border-t border-slate-800/80">
+                            Read More <i class="fas fa-arrow-right text-sm transition-transform duration-300 group-hover:translate-x-2"></i>
+                        </p>
+                    </div>
+
+                    <!-- Card 3: Graphics Designer -->
+                    <div class="card group relative bg-slate-900/60 hover:bg-slate-900/90 border border-slate-800/80 hover:border-purple-500/60 rounded-2xl p-8 cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(147,51,234,0.2)] flex flex-col justify-between overflow-hidden" 
+                         onclick="openModal('Graphics Designer', 'https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=800&auto=format&fit=crop', 'Creating visually engaging digital designs, branding concepts, posters, and creative assets with attention to detail and aesthetics.', ['Brand Identity & Logo Design', 'UI/UX Visual Prototyping', 'Vector Graphics & Illustration', 'Typography & Color Theory', 'Marketing & Promo Assets'])">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div>
+                            <div class="w-14 h-14 rounded-2xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 text-2xl mb-6 group-hover:scale-110 group-hover:bg-purple-500 group-hover:text-slate-950 transition-all duration-300 shadow-lg">
+                                <i class="fas fa-palette"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-4 group-hover:text-purple-400 transition-colors">Graphics Designer</h3>
+                            <p class="text-slate-300 leading-relaxed mb-8 opacity-90">
+                                Creating visually engaging digital designs, branding concepts, posters, and creative assets with attention to detail and aesthetics.
+                            </p>
+                        </div>
+                        <p class="text-purple-400 font-semibold flex items-center gap-2 group-hover:text-purple-300 transition-colors mt-auto pt-4 border-t border-slate-800/80">
+                            Read More <i class="fas fa-arrow-right text-sm transition-transform duration-300 group-hover:translate-x-2"></i>
+                        </p>
+                    </div>
+
+                    <!-- Card 4: Ethical Hacker -->
+                    <div class="card group relative bg-slate-900/60 hover:bg-slate-900/90 border border-slate-800/80 hover:border-emerald-500/60 rounded-2xl p-8 cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(16,185,129,0.2)] flex flex-col justify-between overflow-hidden" 
+                         onclick="openModal('Ethical Hacker', 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800&auto=format&fit=crop', 'Understanding cybersecurity principles, identifying vulnerabilities, promoting secure digital practices, and encouraging responsible technology use.', ['Penetration Testing & Auditing', 'Vulnerability Assessment', 'Network Security Foundations', 'Cryptography Basics', 'Security Awareness & Hardening'])">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 to-teal-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div>
+                            <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-2xl mb-6 group-hover:scale-110 group-hover:bg-emerald-500 group-hover:text-slate-950 transition-all duration-300 shadow-lg">
+                                <i class="fas fa-shield-halved"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-4 group-hover:text-emerald-400 transition-colors">Ethical Hacker</h3>
+                            <p class="text-slate-300 leading-relaxed mb-8 opacity-90">
+                                Understanding cybersecurity principles, identifying vulnerabilities, promoting secure digital practices, and encouraging responsible technology use.
+                            </p>
+                        </div>
+                        <p class="text-emerald-400 font-semibold flex items-center gap-2 group-hover:text-emerald-300 transition-colors mt-auto pt-4 border-t border-slate-800/80">
+                            Read More <i class="fas fa-arrow-right text-sm transition-transform duration-300 group-hover:translate-x-2"></i>
+                        </p>
+                    </div>
+
+                    <!-- Card 5: Fictional Story Writer -->
+                    <div class="card group relative bg-slate-900/60 hover:bg-slate-900/90 border border-slate-800/80 hover:border-amber-500/60 rounded-2xl p-8 cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(245,158,11,0.2)] flex flex-col justify-between overflow-hidden lg:col-span-1 md:col-span-2 lg:max-w-none md:max-w-md md:mx-auto lg:mx-0 w-full" 
+                         onclick="openModal('Fictional Story Writer', 'https://images.unsplash.com/photo-1455390582262-044c8277a808?q=80&w=800&auto=format&fit=crop', 'Crafting imaginative stories, characters, fictional worlds, and compelling narratives that blend creativity with strategic storytelling.', ['World Building & Lore Conceptualization', 'Character Development & Arcs', 'Engaging Plot & Conflict Design', 'Script & Narrative Writing', 'Short Stories & Creative Prose'])">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-amber-500 to-orange-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div>
+                            <div class="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-2xl mb-6 group-hover:scale-110 group-hover:bg-amber-500 group-hover:text-slate-950 transition-all duration-300 shadow-lg">
+                                <i class="fas fa-book-open-reader"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-4 group-hover:text-amber-400 transition-colors">Fictional Story Writer</h3>
+                            <p class="text-slate-300 leading-relaxed mb-8 opacity-90">
+                                Crafting imaginative stories, characters, fictional worlds, and compelling narratives that blend creativity with strategic storytelling.
+                            </p>
+                        </div>
+                        <p class="text-amber-400 font-semibold flex items-center gap-2 group-hover:text-amber-300 transition-colors mt-auto pt-4 border-t border-slate-800/80">
+                            Read More <i class="fas fa-arrow-right text-sm transition-transform duration-300 group-hover:translate-x-2"></i>
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio & Achievements Gallery Section (Certificates) -->
+        <section id="certificates" class="py-24 relative z-10">
+            <div class="max-w-7xl mx-auto px-6">
+                
+                <!-- Section Header -->
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <span class="text-cyan-400 font-semibold tracking-widest uppercase text-sm code-font block mb-3">Milestones & Accolades</span>
+                    <h2 class="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight">
+                        Portfolio & Achievements <span class="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Gallery</span>
+                    </h2>
+                    <p class="text-slate-400 text-lg">
+                        Visual proof of technical excellence, certifications, and high-impact digital design achievements. Click on any image to view in full resolution.
+                    </p>
+                </div>
+
+                <!-- Gallery Cards Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Image 1 -->
+                    <div class="glass-card gallery-card group rounded-2xl overflow-hidden p-3 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(6,182,212,0.15)] cursor-pointer"
+                         onclick="openImageLightbox('https://i.ibb.co/rRmRhKyt/file-0000000067b87207a3b4bbdce0d0f753.png', 'Portfolio Document / Achievement 1')">
+                        <div class="relative overflow-hidden rounded-xl h-60 w-full bg-slate-950">
+                            <img src="https://i.ibb.co/rRmRhKyt/file-0000000067b87207a3b4bbdce0d0f753.png" alt="Gallery Item 1" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                            <div class="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
+                                <span class="bg-slate-900/90 text-cyan-400 px-4 py-2 rounded-full text-xs font-semibold tracking-wide border border-cyan-500/30">
+                                    <i class="fas fa-magnifying-glass-plus mr-1"></i> View Full
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Image 2 -->
+                    <div class="glass-card gallery-card group rounded-2xl overflow-hidden p-3 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(6,182,212,0.15)] cursor-pointer"
+                         onclick="openImageLightbox('https://i.ibb.co/XZN8VTG0/IMG-20260615-WA0006.jpg', 'Portfolio Document / Achievement 2')">
+                        <div class="relative overflow-hidden rounded-xl h-60 w-full bg-slate-950">
+                            <img src="https://i.ibb.co/XZN8VTG0/IMG-20260615-WA0006.jpg" alt="Gallery Item 2" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                            <div class="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
+                                <span class="bg-slate-900/90 text-cyan-400 px-4 py-2 rounded-full text-xs font-semibold tracking-wide border border-cyan-500/30">
+                                    <i class="fas fa-magnifying-glass-plus mr-1"></i> View Full
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Image 3 -->
+                    <div class="glass-card gallery-card group rounded-2xl overflow-hidden p-3 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(6,182,212,0.15)] cursor-pointer"
+                         onclick="openImageLightbox('https://i.ibb.co/GvyVsZqx/IMG-20260614-WA0005.jpg', 'Portfolio Document / Achievement 3')">
+                        <div class="relative overflow-hidden rounded-xl h-60 w-full bg-slate-950">
+                            <img src="https://i.ibb.co/GvyVsZqx/IMG-20260614-WA0005.jpg" alt="Gallery Item 3" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                            <div class="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
+                                <span class="bg-slate-900/90 text-cyan-400 px-4 py-2 rounded-full text-xs font-semibold tracking-wide border border-cyan-500/30">
+                                    <i class="fas fa-magnifying-glass-plus mr-1"></i> View Full
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Image 4 -->
+                    <div class="glass-card gallery-card group rounded-2xl overflow-hidden p-3 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(6,182,212,0.15)] cursor-pointer"
+                         onclick="openImageLightbox('https://i.ibb.co/YF8KpdjD/IMG-20260615-WA0005.jpg', 'Portfolio Document / Achievement 4')">
+                        <div class="relative overflow-hidden rounded-xl h-60 w-full bg-slate-950">
+                            <img src="https://i.ibb.co/YF8KpdjD/IMG-20260615-WA0005.jpg" alt="Gallery Item 4" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                            <div class="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
+                                <span class="bg-slate-900/90 text-cyan-400 px-4 py-2 rounded-full text-xs font-semibold tracking-wide border border-cyan-500/30">
+                                    <i class="fas fa-magnifying-glass-plus mr-1"></i> View Full
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- About Section (Synthesizing Logic, Art & Security into One Vision) -->
+        <section id="about" class="about py-24 bg-slate-900/20 border-t border-slate-900 relative z-10">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    
+                    <!-- Visual Code Side -->
+                    <div class="lg:col-span-5 relative">
+                        <div class="relative mx-auto max-w-md lg:max-w-none">
+                            <div class="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-3xl blur-lg opacity-50 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
+                            <div class="relative bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-2xl">
+                                <div class="flex items-center justify-between border-b border-slate-800 pb-6 mb-6">
+                                    <div class="flex gap-2">
+                                        <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                                        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                                    </div>
+                                    <span class="code-font text-xs text-slate-400">ak_core_matrix.sh</span>
+                                </div>
+                                <div class="code-font text-sm text-slate-300 space-y-4">
+                                    <p><span class="text-cyan-400">&gt;</span> init_system --load ak_profile</p>
+                                    <p class="text-slate-400">Loading modules: Tech, Art, Security, Fiction...</p>
+                                    <p><span class="text-cyan-400">&gt;</span> check_status --all</p>
+                                    <p class="text-green-400">✔ All subsystems operational.</p>
+                                    <div class="p-4 bg-slate-950/80 rounded-xl border border-slate-800 text-slate-300 font-sans mt-6">
+                                        <p class="italic text-slate-400">"True innovation happens when structured logic collides with untamed creativity."</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Text Content Side -->
+                    <div class="lg:col-span-7 lg:pl-8">
+                        <span class="text-cyan-400 font-semibold tracking-widest uppercase text-sm block mb-3">Behind The Execution</span>
+                        <h2 class="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight leading-tight">
+                            Synthesizing Logic, Art & Security into One Vision
+                        </h2>
+                        <p class="text-slate-300 text-lg leading-relaxed mb-6">
+                            The digital landscape is often siloed into isolated specialties. By fusing the rigorous logic of a programmer, the aesthetic refinement of a graphics designer, the defensive mindset of an ethical hacker, and the world-building vision of a story writer, I craft holistic experiences that stand out.
+                        </p>
+                        <p class="text-slate-400 leading-relaxed mb-10">
+                            Whether architecting high-performance web systems or conceptualizing rich fictional lore, every project is treated with meticulous attention to detail, scalable architecture, and an unwavering commitment to outstanding user experience.
+                        </p>
+
+                        <!-- Feature Badges -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="flex items-center gap-4 p-4 rounded-xl bg-slate-900/50 border border-slate-850">
+                                <i class="fas fa-gears text-2xl text-cyan-400"></i>
+                                <div>
+                                    <h4 class="font-bold text-white text-base">Analytical Rigor</h4>
+                                    <p class="text-slate-400 text-xs">Robust, maintainable software architecture</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4 p-4 rounded-xl bg-slate-900/50 border border-slate-850">
+                                <i class="fas fa-lock text-2xl text-emerald-400"></i>
+                                <div>
+                                    <h4 class="font-bold text-white text-base">Security First</h4>
+                                    <p class="text-slate-400 text-xs">Vulnerability-aware engineering principles</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4 p-4 rounded-xl bg-slate-900/50 border border-slate-850">
+                                <i class="fas fa-wand-magic-sparkles text-2xl text-purple-400"></i>
+                                <div>
+                                    <h4 class="font-bold text-white text-base">Creative Precision</h4>
+                                    <p class="text-slate-400 text-xs">Aesthetic perfection & visual UI/UX</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4 p-4 rounded-xl bg-slate-900/50 border border-slate-850">
+                                <i class="fas fa-feather-pointed text-2xl text-amber-400"></i>
+                                <div>
+                                    <h4 class="font-bold text-white text-base">Narrative Depth</h4>
+                                    <p class="text-slate-400 text-xs">Engaging worlds & immersive lore</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact & Connection Section -->
+        <section id="contact" class="contact py-24 bg-[#090d16]/70 border-t border-slate-900 relative z-10">
+            <div class="max-w-5xl mx-auto px-6 text-center space-y-24">
+                
+                <!-- NEW SECTION: Stay Connected With AK (Visitor Connection Form) -->
+                <div class="glass-card rounded-3xl p-8 md:p-12 max-w-3xl mx-auto border border-slate-800/80 shadow-2xl relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-600"></div>
+                    
+                    <div class="space-y-6 mb-8 text-center">
+                        <h3 class="text-3xl font-extrabold text-white tracking-tight">
+                            Stay Connected With AK
+                        </h3>
+                        <p class="text-slate-300 text-base md:text-lg leading-relaxed max-w-xl mx-auto">
+                            "Get updates, future projects, exclusive content, and technology insights from AK. Leave your details below so we can stay connected."
+                        </p>
+                    </div>
+
+                    <!-- Enhanced Formspree Submission Form -->
+                    <form class="popup-form space-y-5 max-w-lg mx-auto text-left" action="https://formspree.io/f/xgobnrbj" method="POST" id="visitorForm" onsubmit="handleFormSubmit(event)">
+                        
+                        <div>
+                            <label for="visitorName" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 code-font">Full Name</label>
+                            <input 
+                                type="text" 
+                                id="visitorName"
+                                name="Name" 
+                                placeholder="e.g. John Doe" 
+                                required 
+                                autocomplete="name"
+                                class="w-full bg-slate-950/80 border border-slate-800 hover:border-slate-700 focus:border-cyan-500/80 rounded-xl px-4 py-3.5 text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/10 transition-all duration-200"
+                            >
+                        </div>
+                        
+                        <div>
+                            <label for="visitorPhone" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 code-font">Phone Number</label>
+                            <input 
+                                type="tel" 
+                                id="visitorPhone"
+                                name="Phone Number" 
+                                placeholder="e.g. +1 (555) 000-0000" 
+                                required 
+                                autocomplete="tel"
+                                class="w-full bg-slate-950/80 border border-slate-800 hover:border-slate-700 focus:border-cyan-500/80 rounded-xl px-4 py-3.5 text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/10 transition-all duration-200"
+                            >
+                        </div>
+
+                        <!-- Date & Time Hidden Input dynamically captured on submit -->
+                        <input type="hidden" name="Submission Date & Time" id="submissionTime">
+                        
+                        <button type="submit" class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-extrabold py-4 px-8 rounded-xl shadow-lg shadow-cyan-500/15 hover:shadow-cyan-500/35 hover:-translate-y-0.5 transition-all duration-300 text-center flex items-center justify-center gap-2">
+                            <span>Join The AK Network</span>
+                            <i class="fas fa-wifi text-sm animate-pulse"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- ORIGINAL SECTION: CONTACT AK -->
+                <div class="space-y-16">
+                    <div class="text-center">
+                        <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-6 tracking-tight">
+                            CONTACT AK
+                        </h2>
+                        <p class="contact-desc text-slate-400 text-lg max-w-2xl mx-auto leading-relaxed">
+                            Have a question, an interesting project, or simply want to connect? Reach out through the primary channels below.
+                        </p>
+                    </div>
+
+                    <!-- Specified Contact Grid in Glassmorphism Cards -->
+                    <div class="contact-grid grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Email Card -->
+                        <a href="mailto:aktestingid094@gmail.com" class="glass-card contact-card group flex flex-col items-center p-8 rounded-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(6,182,212,0.15)]">
+                            <div class="w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 text-2xl mb-6 group-hover:scale-110 group-hover:bg-cyan-500 group-hover:text-slate-950 transition-all duration-300">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <span class="text-slate-200 font-semibold group-hover:text-cyan-400 transition-colors text-sm tracking-wide break-all">
+                                aktestingid094@gmail.com
+                            </span>
+                        </a>
+
+                        <!-- Instagram Card -->
+                        <a href="https://instagram.com/akzone84" target="_blank" class="glass-card contact-card group flex flex-col items-center p-8 rounded-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(147,51,234,0.15)]">
+                            <div class="w-16 h-16 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 text-2xl mb-6 group-hover:scale-110 group-hover:bg-purple-500 group-hover:text-slate-950 transition-all duration-300">
+                                <i class="fab fa-instagram"></i>
+                            </div>
+                            <span class="text-slate-200 font-semibold group-hover:text-purple-400 transition-colors text-sm tracking-wide">
+                                @akzone84
+                            </span>
+                        </a>
+
+                        <!-- GitHub Card -->
+                        <a href="https://github.com/akshatsharma-cyber84" target="_blank" class="glass-card contact-card group flex flex-col items-center p-8 rounded-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(59,130,246,0.15)]">
+                            <div class="w-16 h-16 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 text-2xl mb-6 group-hover:scale-110 group-hover:bg-blue-500 group-hover:text-slate-950 transition-all duration-300">
+                                <i class="fab fa-github"></i>
+                            </div>
+                            <span class="text-slate-200 font-semibold group-hover:text-blue-400 transition-colors text-sm tracking-wide">
+                                akshatsharma-cyber384
+                            </span>
+                        </a>
+                    </div>
+
+                    <!-- Specified Social Icons Section -->
+                    <div class="social-icons flex items-center justify-center gap-6">
+                        <a href="https://instagram.com/akzone84" target="_blank" class="social-icon-btn w-14 h-14 rounded-full bg-slate-900 border border-slate-800 hover:border-cyan-500/50 flex items-center justify-center text-slate-400 hover:text-cyan-400 transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-cyan-500/10" aria-label="Instagram">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                        <a href="mailto:aktestingid094@gmail.com" class="social-icon-btn w-14 h-14 rounded-full bg-slate-900 border border-slate-800 hover:border-cyan-500/50 flex items-center justify-center text-slate-400 hover:text-cyan-400 transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-cyan-500/10" aria-label="Email">
+                            <i class="fas fa-envelope text-xl"></i>
+                        </a>
+                        <a href="https://github.com/akshatsharma-cyber84" target="_blank" class="social-icon-btn w-14 h-14 rounded-full bg-slate-900 border border-slate-800 hover:border-cyan-500/50 flex items-center justify-center text-slate-400 hover:text-cyan-400 transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-cyan-500/10" aria-label="GitHub">
+                            <i class="fab fa-github text-xl"></i>
+                        </a>
+                        <a href="#" class="social-icon-btn w-14 h-14 rounded-full bg-slate-900 border border-slate-800 hover:border-cyan-500/50 flex items-center justify-center text-slate-400 hover:text-cyan-400 transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-cyan-500/10" aria-label="Source Code">
+                            <i class="fas fa-code text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer Section (Updated to user-specified copyright info) -->
+    <footer class="footer bg-slate-950 border-t border-slate-900/80 py-10 text-slate-400 text-sm relative z-10">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-3">
+                <img 
+                    src="https://i.ibb.co/cKh5DG91/file-000000000188722f9b5a3baedaccc30a.png" 
+                    alt="AK Logo" 
+                    class="h-10 w-auto object-contain"
+                >
+            </div>
+            <p class="text-center md:text-left text-xs md:text-sm text-slate-500">
+                © 2026 AK Industries Founder-Akshat Sharma. All rights reserved.
+            </p>
+            <div class="flex items-center gap-6 text-base">
+                <a href="https://github.com/akshatsharma-cyber84" target="_blank" class="hover:text-cyan-400 transition-colors" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+                <a href="https://instagram.com/akzone84" target="_blank" class="hover:text-cyan-400 transition-colors" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="mailto:aktestingid094@gmail.com" class="hover:text-cyan-400 transition-colors" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Preserved Modal Container Structure with Enhanced Glassmorphism & UX Animations -->
+    <div id="modal" class="modal fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 transition-all duration-300 opacity-0 pointer-events-none">
+        <!-- Modal Content Box -->
+        <div id="modalContent" class="bg-slate-900 border border-slate-800 rounded-3xl max-w-2xl w-full overflow-hidden shadow-[0_25px_50px_-12px_rgba(0,0,0,0.85)] transform scale-95 transition-all duration-300 flex flex-col max-h-[90vh]">
+            
+            <!-- Close Button (Top Right Absolute) -->
+            <button onclick="closeModal()" class="absolute top-4 right-4 z-10 bg-slate-900/80 text-slate-300 hover:text-white hover:bg-slate-800 p-3.5 rounded-full transition-all duration-200 focus:outline-none shadow-lg border border-slate-800" aria-label="Close Modal">
+                <i class="fas fa-times text-lg w-5 h-5 flex items-center justify-center"></i>
+            </button>
+
+            <!-- Modal Header Image -->
+            <div class="relative h-64 sm:h-72 w-full overflow-hidden bg-slate-950">
+                <img id="modalImage" src="" alt="Domain Representation" class="w-full h-full object-cover object-center transition-transform duration-700 hover:scale-105">
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/20 to-transparent"></div>
+                <!-- Title Overlay -->
+                <div class="absolute bottom-6 left-8 right-8">
+                    <h3 id="modalTitle" class="text-3xl md:text-4xl font-extrabold text-white tracking-tight drop-shadow-md"></h3>
+                </div>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-8 overflow-y-auto space-y-6 flex-grow custom-scrollbar">
+                <!-- Description -->
+                <p id="modalDesc" class="text-slate-300 text-lg leading-relaxed border-l-4 border-cyan-500 pl-4 py-1 bg-slate-800/40 rounded-r-xl"></p>
+                
+                <!-- Competencies & Highlights List -->
+                <div>
+                    <h4 class="text-sm font-bold uppercase tracking-widest text-cyan-400 mb-4 flex items-center gap-2">
+                        <i class="fas fa-cube text-base"></i> Core Competencies & Highlights
+                    </h4>
+                    <ul id="modalList" class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-slate-200">
+                        <!-- List items injected dynamically via JS -->
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="p-6 bg-slate-950 border-t border-slate-800 flex items-center justify-end gap-4">
+                <button onclick="closeModal()" class="btn bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold py-3 px-8 rounded-xl border border-slate-800 transition-all duration-200 hover:shadow-lg">
+                    Close Window
+                </button>
+                <a href="#contact" onclick="closeModal()" class="btn bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold py-3 px-8 rounded-xl shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 transition-all duration-200">
+                    Inquire About Domain
+                </a>
+            </div>
+
         </div>
     </div>
 
+    <!-- Image Lightbox Modal for Gallery / Certificates Preview -->
+    <div id="imageLightbox" class="fixed inset-0 bg-black/95 backdrop-blur-md z-55 flex flex-col items-center justify-center p-4 transition-all duration-300 opacity-0 pointer-events-none" onclick="closeImageLightbox()">
+        <button onclick="closeImageLightbox()" class="absolute top-6 right-6 z-60 bg-slate-900/80 text-slate-300 hover:text-white p-3.5 rounded-full border border-slate-800 transition-all duration-200" aria-label="Close Lightbox">
+            <i class="fas fa-times text-xl w-6 h-6 flex items-center justify-center"></i>
+        </button>
+        <div class="max-w-4xl max-h-[75vh] p-2 bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl" onclick="event.stopPropagation()">
+            <img id="lightboxImg" src="" alt="Full Resolution" class="max-w-full max-h-[70vh] rounded-xl object-contain">
+        </div>
+        <p id="lightboxCaption" class="text-slate-400 text-sm mt-4 tracking-wide code-font"></p>
+    </div>
+
+    <!-- JavaScript Actions (Drawer Control, Accoridon Toggle & Timestamp Generation) -->
     <script>
-        // Preloader
-        window.addEventListener('load', () => {
-            const loader = document.getElementById('loader');
-            loader.style.opacity = '0';
-            setTimeout(() => loader.remove(), 500);
-        });
+        // DOM Elements for AK Menu & Drawer
+        const akMenuBtn = document.getElementById('akMenuBtn');
+        const akDrawer = document.getElementById('akDrawer');
+        const akOverlay = document.getElementById('akOverlay');
+        const akContactBtn = document.getElementById('akContactBtn');
+        const akLibraryBtn = document.getElementById('akLibraryBtn');
+        const akLibraryContent = document.getElementById('akLibraryContent');
 
-        // Audio initialization (Silent Web Audio API hook preparation)
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        function playFuturisticTone(freq = 440, type = 'sine', duration = 0.05) {
-            try {
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.type = type;
-                osc.frequency.value = freq;
-                gain.gain.setValueAtTime(0.02, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start();
-                osc.stop(audioCtx.currentTime + duration);
-            } catch(e) {
-                // Audio Context not initiated due to user interaction policies
+        // Toggle Drawer on Hamburger Click
+        if (akMenuBtn && akDrawer && akOverlay) {
+            akMenuBtn.addEventListener('click', () => {
+                akMenuBtn.classList.toggle('active');
+                akDrawer.classList.toggle('active');
+                akOverlay.classList.toggle('active');
+            });
+
+            // Close Drawer on Overlay click or Contact Click
+            akOverlay.addEventListener('click', closeDrawer);
+            if (akContactBtn) {
+                akContactBtn.addEventListener('click', closeDrawer);
             }
         }
 
-        // Custom Animated Cursor
-        const cursorDot = document.getElementById('cursorDot');
-        const cursorOutline = document.getElementById('cursorOutline');
-        window.addEventListener('mousemove', (e) => {
-            cursorDot.style.left = e.clientX + 'px';
-            cursorDot.style.top = e.clientY + 'px';
-            
-            // Native smooth following layout
-            cursorOutline.animate({
-                left: e.clientX + 'px',
-                top: e.clientY + 'px'
-            }, { duration: 300, fill: "forwards" });
-        });
-        
-        // Enhance cursor on interactive elements
-        document.querySelectorAll('a, .btn, .card, .role-card, .gallery-card, input, button').forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                cursorOutline.style.transform = 'translate(-50%, -50%) scale(1.6)';
-                cursorOutline.style.borderColor = 'var(--neon-pink)';
-            });
-            el.addEventListener('mouseleave', () => {
-                cursorOutline.style.transform = 'translate(-50%, -50%) scale(1)';
-                cursorOutline.style.borderColor = 'var(--neon)';
-            });
-        });
-
-        // Floating Background Particles & Icons Generation
-        const particlesContainer = document.getElementById('particlesContainer');
-        const iconsArray = ['fa-laptop-code', 'fa-microchip', 'fa-terminal', 'fa-shield-halved', 'fa-brain', 'fa-bolt'];
-        
-        // Create subtle background dot particles
-        for(let i = 0; i < 40; i++) {
-            const p = document.createElement('div');
-            p.classList.add('particle');
-            p.style.left = Math.random() * 100 + 'vw';
-            p.style.animationDuration = (Math.random() * 10 + 8) + 's';
-            p.style.animationDelay = Math.random() * 5 + 's';
-            particlesContainer.appendChild(p);
-        }
-        // Create subtle floating icons
-        for(let i = 0; i < 8; i++) {
-            const icon = document.createElement('i');
-            icon.classList.add('fa-solid', iconsArray[Math.floor(Math.random() * iconsArray.length)], 'floating-icon');
-            icon.style.left = Math.random() * 90 + 5 + 'vw';
-            icon.style.animationDuration = (Math.random() * 15 + 15) + 's';
-            icon.style.animationDelay = Math.random() * 8 + 's';
-            icon.style.fontSize = (Math.random() * 20 + 20) + 'px';
-            particlesContainer.appendChild(icon);
+        // Helper to close drawer
+        function closeDrawer() {
+            if (akMenuBtn) akMenuBtn.classList.remove('active');
+            if (akDrawer) akDrawer.classList.remove('active');
+            if (akOverlay) akOverlay.classList.remove('active');
         }
 
-        // Scroll progress bar and section reveal observer
-        const progressBar = document.getElementById('progressBar');
-        const backToTop = document.getElementById('backToTop');
-        const revealElements = document.querySelectorAll('.section-reveal');
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if(entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
+        // Toggle Library Accordion Content
+        if (akLibraryBtn && akLibraryContent) {
+            akLibraryBtn.addEventListener('click', () => {
+                akLibraryBtn.classList.toggle('active');
+                akLibraryContent.classList.toggle('active');
             });
-        }, { threshold: 0.12 });
-
-        revealElements.forEach(el => observer.observe(el));
-
-        window.addEventListener('scroll', () => {
-            // Scroll progress calculation
-            const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
-            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const scrolled = (winScroll / height) * 100;
-            progressBar.style.width = scrolled + '%';
-            
-            // Back to top visibility check
-            if(winScroll > 600) {
-                backToTop.classList.add('visible');
-            } else {
-                backToTop.classList.remove('visible');
-            }
-        });
-
-        // Typing Effect simulation for Title
-        
-
-        // Bottom Navigation States
-        const navItems = document.querySelectorAll('.nav-item');
-        function setActiveNav(element) {
-            playFuturisticTone(880, 'sine', 0.08);
-            navItems.forEach(item => item.classList.remove('active'));
-            element.classList.add('active');
         }
-        
-        // Intersect observing highlights to dynamic navigation tracking
-        const sections = document.querySelectorAll('section');
-        const navObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if(entry.isIntersecting && entry.intersectionRatio > 0.4) {
-                    const id = entry.target.getAttribute('id');
-                    navItems.forEach(item => {
-                        if(item.getAttribute('href') === `#${id}`) {
-                            item.classList.add('active');
-                            playFuturisticTone(660, 'sine', 0.04);
-                        } else {
-                            item.classList.remove('active');
-                        }
-                    });
-                }
-            });
-        }, { threshold: 0.4 });
-        sections.forEach(sec => navObserver.observe(sec));
 
-        // Role Detail Modal Handling
-        const roleModal = document.getElementById('roleModal');
-        const modalImg = document.getElementById('modalImg');
-        const modalTitle = document.getElementById('modalTitle');
-        const modalDesc = document.getElementById('modalDesc');
-        const modalSkills = document.getElementById('modalSkills');
+        // Preserved openModal function handling Title, Image, Description, and List array
+        function openModal(title, image, desc, list) {
+            const modal = document.getElementById('modal');
+            const modalContent = document.getElementById('modalContent');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalImage = document.getElementById('modalImage');
+            const modalDesc = document.getElementById('modalDesc');
+            const modalList = document.getElementById('modalList');
 
-        function openModal(title, imgUrl, desc, skills) {
-            playFuturisticTone(523.25, 'sine', 0.1); // C5 note
-            modalImg.src = imgUrl;
+            if (!modal) return;
+
+            // Populate Modal Contents
             modalTitle.innerText = title;
+            modalImage.src = image;
             modalDesc.innerText = desc;
             
-            modalSkills.innerHTML = '';
-            skills.forEach(skill => {
+            // Populate List dynamically with premium UI list styles
+            modalList.innerHTML = '';
+            list.forEach(item => {
                 const li = document.createElement('li');
-                li.innerText = skill;
-                modalSkills.appendChild(li);
+                li.className = 'flex items-center gap-3 p-3 bg-slate-800/60 border border-slate-800/60 rounded-xl text-sm font-medium shadow-sm hover:border-cyan-500/50 transition-colors';
+                li.innerHTML = `<span class="w-2 h-2 rounded-full bg-cyan-400 shadow-sm shadow-cyan-400"></span> <span>${item}</span>`;
+                modalList.appendChild(li);
             });
 
-            roleModal.classList.add('active');
+            // Trigger Display & Animations
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.classList.add('opacity-100', 'pointer-events-auto');
+            modalContent.classList.remove('scale-95');
+            modalContent.classList.add('scale-100');
+
+            // Lock body scroll to enhance UX
             document.body.style.overflow = 'hidden';
         }
 
+        // Preserved closeModal function
         function closeModal() {
-            playFuturisticTone(261.63, 'sine', 0.1); // C4 note
-            roleModal.classList.remove('active');
-            document.body.style.overflow = 'auto';
+            const modal = document.getElementById('modal');
+            const modalContent = document.getElementById('modalContent');
+
+            if (!modal) return;
+
+            // Trigger Hide Animations
+            modal.classList.remove('opacity-100', 'pointer-events-auto');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-95');
+
+            // Restore body scroll
+            document.body.style.overflow = '';
         }
 
-        // Close modal when clicking outside content box
-        roleModal.addEventListener('click', (e) => {
-            if(e.target === roleModal) closeModal();
+        // Open Image Lightbox
+        function openImageLightbox(src, caption) {
+            const lightbox = document.getElementById('imageLightbox');
+            const lightboxImg = document.getElementById('lightboxImg');
+            const lightboxCaption = document.getElementById('lightboxCaption');
+
+            if (!lightbox || !lightboxImg) return;
+
+            lightboxImg.src = src;
+            lightboxCaption.innerText = caption || 'Achievement Gallery Item';
+
+            lightbox.classList.remove('opacity-0', 'pointer-events-none');
+            lightbox.classList.add('opacity-100', 'pointer-events-auto');
+
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close Image Lightbox
+        function closeImageLightbox() {
+            const lightbox = document.getElementById('imageLightbox');
+            if (!lightbox) return;
+
+            lightbox.classList.remove('opacity-100', 'pointer-events-auto');
+            lightbox.classList.add('opacity-0', 'pointer-events-none');
+
+            document.body.style.overflow = '';
+        }
+
+        // Close modal on outside backdrop click
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
         });
 
-        // Visitor Popup Automation (Executes precisely at 60 seconds)
-        const visitorPopup = document.getElementById('visitorPopup');
-        const submissionTime = document.getElementById('submissionTime');
-
-        setTimeout(() => {
-            // Evaluates local storage flag if already interacted
-            if(!localStorage.getItem('ak_network_joined')) {
-                playFuturisticTone(600, 'sine', 0.2);
-                // Set precise Date and Time immediately during load up of popup
-                submissionTime.value = new Date().toLocaleString('en-US', { timeZoneName: 'short' });
-                visitorPopup.classList.add('active');
-                document.body.style.overflow = 'hidden';
+        // Close modals on Escape keypress
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+                closeImageLightbox();
+                closeDrawer();
             }
-        }, 60000);
+        });
 
-        // Form Submission Tracker via Formspree Endpoint
-        function handleFormSubmit(e) {
-            playFuturisticTone(440, 'square', 0.3);
-            localStorage.setItem('ak_network_joined', 'true');
-            // Auto close popup sequentially after successful submission notification
-            setTimeout(() => {
-                visitorPopup.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            }, 1500);
+        // Handle Formspree Connection Form submission with precise client timestamping & AJAX response
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const submissionTimeInput = document.getElementById('submissionTime');
+            
+            // Set exact submission date & time
+            if (submissionTimeInput) {
+                submissionTimeInput.value = new Date().toLocaleString();
+            }
+
+            const data = new FormData(form);
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn ? submitBtn.innerHTML : 'Join The AK Network';
+
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner animate-spin"></i> Connecting...';
+            }
+
+            // High-end asynchronous post to Formspree
+            fetch(form.action, {
+                method: form.method,
+                body: data,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Inject a premium success state inside the glass card
+                    form.parentElement.innerHTML = `
+                        <div class="text-center py-10 space-y-6 animate-fade-in">
+                            <div class="w-20 h-20 bg-emerald-500/15 border border-emerald-500/45 rounded-full flex items-center justify-center mx-auto text-emerald-400 text-4xl shadow-lg shadow-emerald-500/10">
+                                <i class="fas fa-check-circle animate-bounce"></i>
+                            </div>
+                            <div class="space-y-2">
+                                <h4 class="text-2xl font-black text-white tracking-wide">Connection Established!</h4>
+                                <p class="text-slate-300 text-sm max-w-md mx-auto leading-relaxed">
+                                    Your details have been securely routed to the AK Network database. Thank you for signing up, we will stay in touch.
+                                </p>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    throw new Error('Network transmission error');
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
+                }
+                alert('Oops! There was an issue establishing a secure connection to Formspree. Please try again.');
+            });
         }
-        /* ===================================
-   AK DRAWER NAVIGATION FIX
-=================================== */
-
-const akMenuBtn = document.getElementById("akMenuBtn");
-const akDrawer = document.getElementById("akDrawer");
-const akOverlay = document.getElementById("akOverlay");
-const akLibraryBtn = document.getElementById("akLibraryBtn");
-const akLibraryContent = document.getElementById("akLibraryContent");
-const akContactBtn = document.getElementById("akContactBtn");
-
-function akOpenMenu() {
-    akDrawer.classList.add("show");
-    akOverlay.classList.add("show");
-    akMenuBtn.classList.add("active");
-}
-
-function akCloseMenu() {
-    akDrawer.classList.remove("show");
-    akOverlay.classList.remove("show");
-    akMenuBtn.classList.remove("active");
-}
-
-if (akMenuBtn) {
-    akMenuBtn.addEventListener("click", () => {
-        akDrawer.classList.contains("show")
-            ? akCloseMenu()
-            : akOpenMenu();
-    });
-}
-
-if (akOverlay) {
-    akOverlay.addEventListener("click", akCloseMenu);
-}
-
-if (akLibraryBtn) {
-    akLibraryBtn.addEventListener("click", () => {
-        akLibraryContent.classList.toggle("show");
-    });
-}
-
-if (akContactBtn) {
-    akContactBtn.addEventListener("click", akCloseMenu);
-}
-        
     </script>
 </body>
 </html>
