@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ak educational World | Under Construction</title>
+    <style>
+        /* Base Cyberpunk / Tech Styling */
+        @import url('https://googleapis.com');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #05050a;
+            color: #ffffff;
+            font-family: 'Rajdhani', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Matrix Particles Background Grid Effect */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 1;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 90%;
+            text-align: center;
+            z-index: 2;
+            padding: 2rem;
+            background: rgba(10, 10, 25, 0.7);
+            border: 1px solid rgba(0, 255, 204, 0.2);
+            border-radius: 12px;
+            box-shadow: 0 0 40px rgba(0, 255, 204, 0.05);
+            backdrop-filter: blur(8px);
+        }
+
+        /* Branding Styles */
+        .parent-link {
+            display: inline-block;
+            color: #888;
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .parent-link:hover {
+            color: #00ffcc;
+            text-shadow: 0 0 8px rgba(0, 255, 204, 0.6);
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.8rem;
+            letter-spacing: 3px;
+            margin-bottom: 1rem;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+
+        h1 span {
+            color: #00ffcc;
+            text-shadow: 0 0 15px rgba(0, 255, 204, 0.6);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(255, 170, 0, 0.1);
+            border: 1px solid #ffaa00;
+            color: #ffaa00;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            box-shadow: 0 0 10px rgba(255, 170, 0, 0.2);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.8; }
+            50% { opacity: 1; box-shadow: 0 0 15px rgba(255, 170, 0, 0.4); }
+            100% { opacity: 0.8; }
+        }
+
+        p.description {
+            font-size: 1.2rem;
+            color: #b0b0d0;
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+        }
+
+        /* Countdown Elements */
+        .countdown-container {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .time-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 1rem;
+            border-radius: 8px;
+            min-width: 90px;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .time-box:hover {
+            transform: translateY(-5px);
+            border-color: #00ffcc;
+        }
+
+        .time-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #00ffcc;
+            display: block;
+        }
+
+        .time-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: #888;
+            letter-spacing: 1px;
+            margin-top: 0.2rem;
+        }
+
+        /* Footer System Status */
+        .footer-system {
+            margin-top: 1rem;
+            font-family: monospace;
+            color: #444466;
+            font-size: 0.85rem;
+        }
+
+        /* Responsive Tweak */
+        @media(max-width: 600px) {
+            h1 { font-size: 2rem; }
+            .countdown-container { gap: 0.8rem; }
+            .time-box { min-width: 75px; padding: 0.8rem; }
+            .time-value { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Connecting back to your primary hub -->
+        <a href="https://akshatsharma-cyber84.github.io/AK_world/" class="parent-link">← Return to AK World Hub</a>
+        
+        <h1>Ak educational <span>World</span></h1>
+        
+        <div class="status-badge">🛠️ System Initializing</div>
+        
+        <p class="description">
+            Fusing structural logic with untamed creativity to architect a brand new learning matrix. 
+            The educational interface is currently offline for structural compilation. A new incredible work starts here.
+        </p>
+
+        <!-- Countdown Timer Engine Placeholder -->
+        <div class="countdown-container">
+            <div class="time-box">
+                <span class="time-value" id="days">00</span>
+                <span class="time-label">Days</span>
+            </div>
+            <div class="time-box">
+                <span class="time-value" id="hours">00</span>
+                <span class="time-label">Hours</span>
+            </div>
+            <div class="time-box">
+                <span class="time-value" id="minutes">00</span>
+                <span class="time-label">Mins</span>
+            </div>
+            <div class="time-box">
+                <span class="time-value" id="seconds">00</span>
+                <span class="time-label">Secs</span>
+            </div>
+        </div>
+
+        <div class="footer-system">
+            > ak_core_matrix.sh --status: UNDER_CONSTRUCTION // © 2026 AK Industries
+        </div>
+    </div>
+
+    <script>
+        // Set a target launch date (e.g., 60 days from now automatically for demo)
+        const targetDate = new Date();
+        targetDate.setDate(targetDate.getDate() + 60); 
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const difference = targetDate - now;
+
+            if (difference < 0) {
+                document.querySelector('.countdown-container').innerHTML = "<span style='color:#00ffcc; font-size:1.5rem;'>SYSTEM READY FOR LAUNCH</span>";
+                return;
+            }
+
+            // Calculations for time modules
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            // Double digit injection
+            document.getElementById('days').innerText = days < 10 ? '0' + days : days;
+            document.getElementById('hours').innerText = hours < 10 ? '0' + hours : hours;
+            document.getElementById('minutes').innerText = minutes < 10 ? '0' + minutes : minutes;
+            document.getElementById('seconds').innerText = seconds < 10 ? '0' + seconds : seconds;
+        }
+
+        // Run tick cycle
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+</body>
+</html>
