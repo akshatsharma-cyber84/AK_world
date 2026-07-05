@@ -8,104 +8,326 @@
     <!-- Google Fonts & FontAwesome for Premium Typography & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    
-    <!-- Custom Enhanced Styles preserving original CSS structure while adding modern enhancements -->
     <style>
+        /* ========== RESET & BASE ========== */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #090d16;
+            background-color: #05070d;
             color: #f8fafc;
             overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
+        a { text-decoration: none; color: inherit; }
+        button { font-family: inherit; cursor: pointer; border: none; background: none; }
+        img { max-width: 100%; display: block; }
 
-        .code-font {
-            font-family: 'Fira Code', monospace;
-        }
+        .code-font { font-family: 'Fira Code', monospace; }
+        .orbitron { font-family: 'Orbitron', sans-serif; }
 
-        /* Custom scrollbar for an enhanced UI experience */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #090d16;
-        }
+        /* ========== CUSTOM SCROLLBAR ========== */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #05070d; }
         ::-webkit-scrollbar-thumb {
-            background: #1e293b;
+            background: linear-gradient(180deg, #06b6d4, #3b82f6);
             border-radius: 5px;
-            border: 2px solid #090d16;
+            border: 2px solid #05070d;
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #06b6d4;
+        ::-webkit-scrollbar-thumb:hover { background: #22d3ee; }
+
+        /* ========== FUTURISTIC BACKGROUND ========== */
+        .bg-stage {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background:
+                radial-gradient(ellipse at 20% 0%, rgba(6, 182, 212, 0.18) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 30%, rgba(147, 51, 234, 0.18) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 100%, rgba(59, 130, 246, 0.18) 0%, transparent 50%),
+                linear-gradient(180deg, #05070d 0%, #0a0f1c 50%, #05070d 100%);
         }
 
-        /* Animated background glow meshes */
-        .glow-orb-1 {
+        /* Animated grid */
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background-image:
+                linear-gradient(rgba(6, 182, 212, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(6, 182, 212, 0.08) 1px, transparent 1px);
+            background-size: 50px 50px;
+            mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+            animation: gridMove 20s linear infinite;
+        }
+        @keyframes gridMove {
+            0% { background-position: 0 0, 0 0; }
+            100% { background-position: 50px 50px, 50px 50px; }
+        }
+
+        /* Particle canvas */
+        #particles-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Glowing orbs */
+        .glow-orb {
             position: absolute;
-            top: -100px;
-            left: -100px;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(6,182,212,0.12) 0%, rgba(9,13,22,0) 75%);
+            border-radius: 50%;
+            filter: blur(80px);
             z-index: 0;
             pointer-events: none;
+            will-change: transform;
+        }
+        .glow-orb-1 {
+            top: -150px; left: -150px;
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(6,182,212,0.25) 0%, transparent 70%);
+            animation: floatOrb1 18s ease-in-out infinite;
         }
         .glow-orb-2 {
-            position: absolute;
-            top: 35%;
-            right: -150px;
-            width: 700px;
-            height: 700px;
-            background: radial-gradient(circle, rgba(147,51,234,0.12) 0%, rgba(9,13,22,0) 75%);
-            z-index: 0;
-            pointer-events: none;
+            top: 30%; right: -200px;
+            width: 700px; height: 700px;
+            background: radial-gradient(circle, rgba(147,51,234,0.22) 0%, transparent 70%);
+            animation: floatOrb2 22s ease-in-out infinite;
         }
         .glow-orb-3 {
-            position: absolute;
-            bottom: 10%;
-            left: -100px;
-            width: 650px;
-            height: 650px;
-            background: radial-gradient(circle, rgba(59,130,246,0.12) 0%, rgba(9,13,22,0) 75%);
-            z-index: 0;
-            pointer-events: none;
+            bottom: 5%; left: -100px;
+            width: 650px; height: 650px;
+            background: radial-gradient(circle, rgba(59,130,246,0.22) 0%, transparent 70%);
+            animation: floatOrb3 25s ease-in-out infinite;
+        }
+        @keyframes floatOrb1 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(80px, 60px) scale(1.1); }
+        }
+        @keyframes floatOrb2 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-100px, 80px) scale(1.15); }
+        }
+        @keyframes floatOrb3 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(60px, -80px) scale(1.1); }
         }
 
-        /* Float animation for hero elements */
+        /* ========== UTILITY ANIMATIONS ========== */
         @keyframes float {
             0%, 100% { transform: translateY(0px) rotate(0deg); }
             50% { transform: translateY(-10px) rotate(0.5deg); }
         }
-        .animate-float {
-            animation: float 6s ease-in-out infinite;
-        }
+        .animate-float { animation: float 6s ease-in-out infinite; }
 
-        /* Pulse animation for glowing borders */
         @keyframes pulseGlow {
-            0%, 100% { box-shadow: 0 0 15px rgba(6, 182, 212, 0.3); }
-            50% { box-shadow: 0 0 30px rgba(6, 182, 212, 0.6); }
+            0%, 100% { box-shadow: 0 0 15px rgba(6, 182, 212, 0.4), 0 0 30px rgba(6, 182, 212, 0.2); }
+            50% { box-shadow: 0 0 30px rgba(6, 182, 212, 0.7), 0 0 60px rgba(6, 182, 212, 0.3); }
         }
-        .pulse-glow {
-            animation: pulseGlow 3s infinite;
+        .pulse-glow { animation: pulseGlow 3s infinite; }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
         }
 
-        /* Glassmorphism utility */
-        .glass-card {
-            background: rgba(30, 41, 59, 0.45);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .spin-slow { animation: spin-slow 12s linear infinite; }
+
+        @keyframes revealUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .animate-fade-in { animation: fadeIn 0.6s ease-out; }
+
+        /* ========== GLASSMORPHISM ========== */
+        .glass {
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
+        .glass-card {
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(135deg, transparent 0%, rgba(6, 182, 212, 0.05) 50%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.4s;
+            pointer-events: none;
+        }
+        .glass-card:hover::before { opacity: 1; }
         .glass-card:hover {
-            background: rgba(30, 41, 59, 0.6);
             border-color: rgba(6, 182, 212, 0.4);
+            box-shadow: 0 15px 40px rgba(6, 182, 212, 0.15);
         }
 
-        /* ==================== AK MENU DRAWER SYSTEM ==================== */
+        /* ========== NAVBAR ========== */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            width: 100%;
+            background: rgba(5, 7, 13, 0.7);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid rgba(6, 182, 212, 0.15);
+            transition: all 0.3s ease;
+        }
+        .nav-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* ========== 3D LOGO ========== */
+        .logo-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 800px;
+        }
+        .logo-3d {
+            position: relative;
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.15), rgba(59, 130, 246, 0.15));
+            border: 1px solid rgba(6, 182, 212, 0.4);
+            box-shadow:
+                0 0 20px rgba(6, 182, 212, 0.4),
+                inset 0 0 20px rgba(6, 182, 212, 0.1),
+                0 8px 20px rgba(0, 0, 0, 0.4);
+            transform-style: preserve-3d;
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow: hidden;
+        }
+        .logo-3d::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 18px;
+            background: conic-gradient(from 0deg, #06b6d4, #3b82f6, #8b5cf6, #06b6d4);
+            z-index: -1;
+            opacity: 0.6;
+            animation: spin-slow 4s linear infinite;
+        }
+        .logo-3d::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shine 3s infinite;
+        }
+        .logo-3d img {
+            width: 38px;
+            height: 38px;
+            object-fit: contain;
+            filter: brightness(0) invert(1) drop-shadow(0 0 6px rgba(6, 182, 212, 0.8));
+            position: relative;
+            z-index: 2;
+        }
+        .logo-wrap:hover .logo-3d {
+            transform: rotateY(15deg) rotateX(-10deg) scale(1.08);
+            box-shadow:
+                0 0 35px rgba(6, 182, 212, 0.7),
+                inset 0 0 25px rgba(6, 182, 212, 0.2),
+                0 12px 30px rgba(0, 0, 0, 0.5);
+        }
+        .logo-text {
+            margin-left: 0.75rem;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.1;
+        }
+        .logo-text .brand {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 1.1rem;
+            letter-spacing: 0.15em;
+            background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(6, 182, 212, 0.3);
+        }
+        .logo-text .tag {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.65rem;
+            color: #64748b;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+        @media (max-width: 640px) {
+            .logo-text { display: none; }
+        }
+
+        /* ========== DESKTOP NAV LINKS ========== */
+        .nav-links {
+            display: none;
+            align-items: center;
+            gap: 2rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #cbd5e1;
+        }
+        @media (min-width: 768px) {
+            .nav-links { display: flex; }
+        }
+        .nav-link {
+            position: relative;
+            padding: 0.5rem 0;
+            transition: color 0.3s;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 0; height: 2px;
+            background: linear-gradient(90deg, #06b6d4, #3b82f6);
+            transition: width 0.3s;
+            box-shadow: 0 0 8px #06b6d4;
+        }
+        .nav-link:hover { color: #22d3ee; }
+        .nav-link:hover::after { width: 100%; }
+
+        /* ========== AK MENU DRAWER ========== */
         .ak-menu-btn {
             display: flex;
             flex-direction: column;
@@ -117,20 +339,19 @@
             position: relative;
             transition: transform 0.3s ease;
         }
-        .ak-menu-btn:hover {
-            transform: scale(1.05);
-        }
+        .ak-menu-btn:hover { transform: scale(1.1); }
         .ak-line {
             width: 100%;
             height: 3px;
-            background-color: #f8fafc;
+            background: linear-gradient(90deg, #f8fafc, #22d3ee);
             border-radius: 2px;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 8px rgba(34, 211, 238, 0.5);
         }
-        /* Hamburger to X transform */
         .ak-menu-btn.active .ak-line:nth-child(1) {
             transform: translateY(9px) rotate(45deg);
-            background-color: #06b6d4;
+            background: #22d3ee;
+            box-shadow: 0 0 12px #22d3ee;
         }
         .ak-menu-btn.active .ak-line:nth-child(2) {
             opacity: 0;
@@ -138,177 +359,1230 @@
         }
         .ak-menu-btn.active .ak-line:nth-child(3) {
             transform: translateY(-10px) rotate(-45deg);
-            background-color: #06b6d4;
+            background: #22d3ee;
+            box-shadow: 0 0 12px #22d3ee;
         }
 
-        /* AK Overlay */
         .ak-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(9, 13, 22, 0.85);
+            inset: 0;
+            background: rgba(5, 7, 13, 0.85);
             backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             z-index: 45;
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .ak-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
+        .ak-overlay.active { opacity: 1; pointer-events: auto; }
 
-        /* AK Drawer */
         .ak-drawer {
             position: fixed;
             top: 0;
             right: -400px;
             width: 380px;
             height: 100%;
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(24px);
-            border-left: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(10, 15, 28, 0.95);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border-left: 1px solid rgba(6, 182, 212, 0.2);
             z-index: 48;
             transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             flex-direction: column;
             padding: 2.5rem 2rem;
-            box-shadow: -15px 0 40px rgba(0, 0, 0, 0.6);
+            box-shadow: -15px 0 50px rgba(0, 0, 0, 0.7);
         }
         @media (max-width: 440px) {
-            .ak-drawer {
-                width: 100%;
-                right: -100%;
-            }
+            .ak-drawer { width: 100%; right: -100%; }
         }
-        .ak-drawer.active {
-            right: 0;
-        }
+        .ak-drawer.active { right: 0; }
 
-        /* AK Drawer Header */
         .ak-header {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: 1px solid rgba(6, 182, 212, 0.2);
             padding-bottom: 1.5rem;
             margin-bottom: 2rem;
         }
         .ak-header h3 {
-            font-family: 'Fira Code', monospace;
+            font-family: 'Orbitron', sans-serif;
             font-size: 1.5rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+            background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #8b5cf6 100%);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.15em;
+            text-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
         }
 
-        /* AK Content & Library Accordion */
-        .ak-content {
-            flex-grow: 1;
-            overflow-y: auto;
-            margin-bottom: 2rem;
-        }
+        .ak-content { flex-grow: 1; overflow-y: auto; margin-bottom: 2rem; }
         .ak-library-btn {
             width: 100%;
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 1.25rem;
-            background: rgba(30, 41, 59, 0.5);
+            background: rgba(15, 23, 42, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 1rem;
             color: #f8fafc;
             font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s;
         }
         .ak-library-btn:hover {
             border-color: rgba(6, 182, 212, 0.4);
-            background: rgba(30, 41, 59, 0.8);
-            box-shadow: 0 4px 20px rgba(6, 182, 212, 0.1);
+            background: rgba(15, 23, 42, 0.8);
+            box-shadow: 0 4px 20px rgba(6, 182, 212, 0.2);
         }
         .ak-library-btn i {
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .ak-library-btn.active i {
-            transform: rotate(180deg);
-            color: #06b6d4;
-        }
+        .ak-library-btn.active i { transform: rotate(180deg); color: #22d3ee; }
         .ak-library-content {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             margin-top: 0.75rem;
         }
-        .ak-library-content.active {
-            max-height: 500px;
-        }
+        .ak-library-content.active { max-height: 500px; }
         .ak-library-box {
             padding: 1.5rem;
-            background: rgba(9, 13, 22, 0.75);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(5, 7, 13, 0.7);
+            border: 1px solid rgba(6, 182, 212, 0.15);
             border-radius: 1rem;
             font-size: 0.925rem;
             line-height: 1.7;
             color: #cbd5e1;
             box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5);
         }
+        .ak-library-box a { color: #22d3ee; }
+        .ak-library-box a:hover { text-decoration: underline; }
 
-        /* Contact Wrap inside Drawer */
         .ak-contact-wrap {
             margin-top: auto;
             padding-top: 1.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            border-top: 1px solid rgba(6, 182, 212, 0.2);
         }
         .ak-contact-btn {
             display: block;
             width: 100%;
             text-align: center;
             background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
-            color: #090d16;
+            color: #05070d;
             font-weight: 800;
             padding: 1.1rem;
             border-radius: 1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.25);
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(6, 182, 212, 0.4);
+            position: relative;
+            overflow: hidden;
         }
+        .ak-contact-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+        .ak-contact-btn:hover::before { left: 100%; }
         .ak-contact-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(6, 182, 212, 0.45);
-            filter: brightness(1.1);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(6, 182, 212, 0.6);
         }
+
+        /* ========== HERO ========== */
+        .section { position: relative; z-index: 1; }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
+
+        .hero {
+            padding: 5rem 0;
+            overflow: hidden;
+        }
+        @media (min-width: 768px) { .hero { padding: 7rem 0; } }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        @media (min-width: 1024px) {
+            .hero-grid { grid-template-columns: 7fr 5fr; gap: 3rem; }
+        }
+
+        .intro {
+            color: #22d3ee;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            text-shadow: 0 0 20px rgba(34, 211, 238, 0.4);
+            font-size: 1.4rem;
+        }
+
+        .hero-title {
+            font-size: clamp(2.25rem, 5vw, 4rem);
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #22d3ee 0%, #3b82f6 50%, #a855f7 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gradient-text-alt {
+            background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .bio {
+            color: #cbd5e1;
+            font-size: 1rem;
+            line-height: 1.7;
+            max-width: 42rem;
+        }
+        @media (min-width: 768px) { .bio { font-size: 1.125rem; } }
+
+        /* Hero buttons */
+        .hero-btns {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        @media (min-width: 640px) { .hero-btns { flex-direction: row; } }
+        @media (min-width: 1024px) { .hero-btns { justify-content: flex-start; } }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            text-align: center;
+            white-space: nowrap;
+        }
+        @media (min-width: 640px) { .btn { width: auto; } }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+            color: #05070d;
+            box-shadow: 0 8px 25px rgba(6, 182, 212, 0.3);
+        }
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s;
+        }
+        .btn-primary:hover::before { left: 100%; }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(6, 182, 212, 0.5);
+        }
+
+        .btn-outline {
+            background: rgba(15, 23, 42, 0.6);
+            color: #e2e8f0;
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        .btn-outline:hover {
+            transform: translateY(-3px);
+            border-color: rgba(6, 182, 212, 0.6);
+            box-shadow: 0 10px 25px rgba(6, 182, 212, 0.2);
+        }
+
+        /* Profile image with 3D tilt */
+        .profile-area {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            transform-style: preserve-3d;
+            transition: transform 0.3s ease-out;
+        }
+        .profile-ring {
+            position: absolute;
+            inset: -8px;
+            background: conic-gradient(from 0deg, #06b6d4, #3b82f6, #a855f7, #ec4899, #06b6d4);
+            border-radius: 1.5rem;
+            filter: blur(20px);
+            opacity: 0.6;
+            animation: spin-slow 8s linear infinite;
+        }
+        .profile-card {
+            position: relative;
+            background: rgba(15, 23, 42, 0.8);
+            border: 2px solid rgba(6, 182, 212, 0.4);
+            border-radius: 1.5rem;
+            padding: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            transform-style: preserve-3d;
+        }
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent 30%, rgba(6, 182, 212, 0.1) 50%, transparent 70%);
+            pointer-events: none;
+        }
+        .profile-img {
+            width: 18rem;
+            height: 24rem;
+            object-fit: cover;
+            border-radius: 1rem;
+            filter: grayscale(50%);
+            transition: filter 0.6s;
+        }
+        @media (min-width: 768px) {
+            .profile-img { width: 20rem; height: 26rem; }
+        }
+        .profile-area:hover .profile-img { filter: grayscale(0%); }
+
+        .badge-wizard {
+            position: absolute;
+            bottom: -1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(5, 7, 13, 0.9);
+            color: #22d3ee;
+            border: 1px solid rgba(34, 211, 238, 0.6);
+            padding: 0.5rem 1.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 900;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            box-shadow: 0 0 30px rgba(34, 211, 238, 0.5);
+            animation: pulseGlow 3s infinite;
+        }
+        @media (min-width: 768px) { .badge-wizard { font-size: 0.875rem; } }
+
+        /* ========== SECTIONS ========== */
+        .page {
+            padding: 6rem 0;
+            position: relative;
+            z-index: 1;
+        }
+        .section-header {
+            text-align: center;
+            max-width: 48rem;
+            margin: 0 auto 5rem;
+        }
+        .section-title {
+            font-size: clamp(1.875rem, 4vw, 3rem);
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+        .section-subtitle {
+            color: #94a3b8;
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+        .eyebrow {
+            color: #22d3ee;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+            display: block;
+            margin-bottom: 0.75rem;
+        }
+
+        /* ========== ROLES CARDS ========== */
+        .roles-bg {
+            background: linear-gradient(180deg, transparent 0%, rgba(15, 23, 42, 0.4) 50%, transparent 100%);
+            border-top: 1px solid rgba(6, 182, 212, 0.1);
+            border-bottom: 1px solid rgba(6, 182, 212, 0.1);
+        }
+        .cards-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        @media (min-width: 768px) { .cards-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1024px) { .cards-grid { grid-template-columns: repeat(3, 1fr); } }
+
+        .card {
+            position: relative;
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1rem;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            will-change: transform;
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 3px;
+            background: linear-gradient(90deg, var(--card-color, #06b6d4), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .card:hover::before { opacity: 1; }
+        .card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(6, 182, 212, 0.15) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.4s;
+            pointer-events: none;
+        }
+        .card:hover::after { opacity: 1; }
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(6, 182, 212, 0.4);
+            box-shadow: 0 20px 40px rgba(6, 182, 212, 0.15);
+        }
+
+        .card-icon {
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s;
+            border: 1px solid currentColor;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        .card:hover .card-icon { transform: scale(1.1) rotate(-5deg); }
+
+        .card-cyan { --card-color: #06b6d4; color: #22d3ee; }
+        .card-blue { --card-color: #3b82f6; color: #60a5fa; }
+        .card-purple { --card-color: #a855f7; color: #c084fc; }
+        .card-emerald { --card-color: #10b981; color: #34d399; }
+        .card-amber { --card-color: #f59e0b; color: #fbbf24; }
+
+        .card:hover .card-cyan,
+        .card:hover .card-blue,
+        .card:hover .card-purple,
+        .card:hover .card-emerald,
+        .card:hover .card-amber { background: currentColor; color: #05070d !important; }
+
+        .card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 1rem;
+            transition: color 0.3s;
+        }
+        .card-cyan-host:hover h3 { color: #22d3ee; }
+        .card-blue-host:hover h3 { color: #60a5fa; }
+        .card-purple-host:hover h3 { color: #c084fc; }
+        .card-emerald-host:hover h3 { color: #34d399; }
+        .card-amber-host:hover h3 { color: #fbbf24; }
+
+        .card p { color: #cbd5e1; line-height: 1.7; opacity: 0.9; }
+
+        .card .read-more {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: auto;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            transition: color 0.3s;
+        }
+        .card .read-more i { transition: transform 0.3s; }
+        .card:hover .read-more i { transform: translateX(5px); }
+
+        .card-cyan-host .read-more { color: #22d3ee; }
+        .card-blue-host .read-more { color: #60a5fa; }
+        .card-purple-host .read-more { color: #c084fc; }
+        .card-emerald-host .read-more { color: #34d399; }
+        .card-amber-host .read-more { color: #fbbf24; }
+
+        /* ========== GALLERY ========== */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        @media (min-width: 640px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1024px) { .gallery-grid { grid-template-columns: repeat(3, 1fr); } }
+
+        .gallery-card {
+            position: relative;
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1rem;
+            overflow: hidden;
+            padding: 0.75rem;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .gallery-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(6, 182, 212, 0.4);
+            box-shadow: 0 20px 40px rgba(6, 182, 212, 0.2);
+        }
+        .gallery-img-wrap {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.75rem;
+            height: 15rem;
+            background: #05070d;
+        }
+        .gallery-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s;
+        }
+        .gallery-card:hover .gallery-img-wrap img { transform: scale(1.1); }
+        .gallery-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(5, 7, 13, 0.6);
+            backdrop-filter: blur(4px);
+            opacity: 0;
+            transition: opacity 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .gallery-card:hover .gallery-overlay { opacity: 1; }
+        .gallery-overlay span {
+            background: rgba(15, 23, 42, 0.95);
+            color: #22d3ee;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            border: 1px solid rgba(34, 211, 238, 0.3);
+        }
+
+        /* ========== ABOUT ========== */
+        .about { border-top: 1px solid rgba(6, 182, 212, 0.1); }
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        @media (min-width: 1024px) { .about-grid { grid-template-columns: 5fr 7fr; gap: 3rem; } }
+
+        .code-card {
+            position: relative;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(6, 182, 212, 0.2);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            max-width: 28rem;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        .code-card::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            background: linear-gradient(135deg, #06b6d4, #a855f7);
+            border-radius: 1.5rem;
+            z-index: -1;
+            opacity: 0.5;
+            filter: blur(20px);
+        }
+        @media (min-width: 1024px) { .code-card { max-width: none; } }
+
+        .code-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .code-dots { display: flex; gap: 0.5rem; }
+        .code-dots span { width: 0.75rem; height: 0.75rem; border-radius: 50%; }
+        .code-dots span:nth-child(1) { background: #ef4444; }
+        .code-dots span:nth-child(2) { background: #f59e0b; }
+        .code-dots span:nth-child(3) { background: #10b981; }
+
+        .code-content { font-family: 'Fira Code', monospace; font-size: 0.875rem; color: #cbd5e1; }
+        .code-content p { margin-bottom: 1rem; }
+        .code-content .accent { color: #22d3ee; }
+        .code-content .success { color: #34d399; }
+        .code-content .muted { color: #94a3b8; }
+        .code-quote {
+            padding: 1rem;
+            background: rgba(5, 7, 13, 0.7);
+            border: 1px solid rgba(6, 182, 212, 0.2);
+            border-radius: 0.75rem;
+            font-family: 'Inter', sans-serif;
+            margin-top: 1.5rem;
+        }
+        .code-quote p { font-style: italic; color: #94a3b8; margin: 0; }
+
+        .about-text p { color: #cbd5e1; line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.05rem; }
+        .about-text p:last-of-type { color: #94a3b8; }
+
+        .feature-badges {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        @media (min-width: 640px) { .feature-badges { grid-template-columns: repeat(2, 1fr); } }
+
+        .feature-badge {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s;
+        }
+        .feature-badge:hover {
+            transform: translateX(5px);
+            border-color: rgba(6, 182, 212, 0.3);
+            box-shadow: 0 8px 20px rgba(6, 182, 212, 0.1);
+        }
+        .feature-badge i { font-size: 1.5rem; }
+        .feature-badge h4 { font-weight: 700; color: #ffffff; font-size: 1rem; }
+        .feature-badge p { color: #94a3b8; font-size: 0.75rem; margin: 0; }
+
+        /* ========== CONTACT ========== */
+        .contact { background: rgba(5, 7, 13, 0.5); border-top: 1px solid rgba(6, 182, 212, 0.1); }
+        .contact-spacing > * + * { margin-top: 6rem; }
+
+        .visitor-card {
+            position: relative;
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(6, 182, 212, 0.2);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            max-width: 48rem;
+            margin: 0 auto;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+        @media (min-width: 768px) { .visitor-card { padding: 3rem; } }
+        .visitor-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 3px;
+            background: linear-gradient(90deg, #06b6d4, #3b82f6, #a855f6);
+        }
+        .visitor-card h3 {
+            font-size: 1.875rem;
+            font-weight: 800;
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+        .visitor-card > div > p {
+            color: #cbd5e1;
+            text-align: center;
+            line-height: 1.7;
+            max-width: 36rem;
+            margin: 0 auto 2rem;
+        }
+
+        .popup-form { max-width: 32rem; margin: 0 auto; }
+        .form-group { margin-bottom: 1.25rem; }
+        .form-group label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+        .form-group input {
+            width: 100%;
+            background: rgba(5, 7, 13, 0.7);
+            border: 1px solid rgba(6, 182, 212, 0.15);
+            border-radius: 0.75rem;
+            padding: 0.875rem 1rem;
+            color: #ffffff;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+        .form-group input::placeholder { color: #475569; }
+        .form-group input:hover { border-color: rgba(6, 182, 212, 0.3); }
+        .form-group input:focus {
+            outline: none;
+            border-color: rgba(6, 182, 212, 0.8);
+            box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+            color: #05070d;
+            font-weight: 800;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 30px rgba(6, 182, 212, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s;
+        }
+        .submit-btn:hover::before { left: 100%; }
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(6, 182, 212, 0.5);
+        }
+        .submit-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        @media (min-width: 768px) { .contact-grid { grid-template-columns: repeat(3, 1fr); } }
+
+        .contact-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            border-radius: 1rem;
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .contact-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(6, 182, 212, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .contact-card:hover::before { opacity: 1; }
+        .contact-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(6, 182, 212, 0.4);
+            box-shadow: 0 20px 40px rgba(6, 182, 212, 0.15);
+        }
+        .contact-icon {
+            width: 4rem;
+            height: 4rem;
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s;
+            border: 1px solid currentColor;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        .contact-card:hover .contact-icon { transform: scale(1.1); }
+        .contact-card:hover .contact-icon.cyan,
+        .contact-card:hover .contact-icon.purple,
+        .contact-card:hover .contact-icon.blue { background: currentColor; color: #05070d !important; }
+        .contact-icon.cyan { color: #22d3ee; }
+        .contact-icon.purple { color: #c084fc; }
+        .contact-icon.blue { color: #60a5fa; }
+        .contact-card span { color: #e2e8f0; font-weight: 600; font-size: 0.875rem; letter-spacing: 0.05em; text-align: center; }
+        .contact-card:hover .cyan-text { color: #22d3ee; }
+        .contact-card:hover .purple-text { color: #c084fc; }
+        .contact-card:hover .blue-text { color: #60a5fa; }
+        .cyan-text { color: #e2e8f0; transition: color 0.3s; }
+        .purple-text { color: #e2e8f0; transition: color 0.3s; }
+        .blue-text { color: #e2e8f0; transition: color 0.3s; }
+
+        .social-icons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+        .social-icon-btn {
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: 50%;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            transition: all 0.3s;
+        }
+        .social-icon-btn:hover {
+            transform: scale(1.15) translateY(-3px);
+            color: #22d3ee;
+            border-color: rgba(34, 211, 238, 0.5);
+            box-shadow: 0 10px 25px rgba(6, 182, 212, 0.3);
+        }
+
+        .contact-desc { color: #94a3b8; font-size: 1.05rem; max-width: 36rem; margin: 0 auto; line-height: 1.7; }
+
+        /* ========== FOOTER ========== */
+        .footer {
+            background: #05070d;
+            border-top: 1px solid rgba(6, 182, 212, 0.15);
+            padding: 2.5rem 0;
+            color: #94a3b8;
+            font-size: 0.875rem;
+            position: relative;
+            z-index: 1;
+        }
+        .footer-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        @media (min-width: 768px) {
+            .footer-inner { flex-direction: row; justify-content: space-between; }
+        }
+        .footer p { text-align: center; color: #64748b; font-size: 0.75rem; }
+        @media (min-width: 768px) { .footer p { font-size: 0.875rem; text-align: left; } }
+        .footer-social { display: flex; align-items: center; gap: 1.5rem; font-size: 1.1rem; }
+        .footer-social a { transition: all 0.3s; }
+        .footer-social a:hover { color: #22d3ee; transform: translateY(-2px); }
+
+        /* ========== MODAL ========== */
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        .modal.show { opacity: 1; pointer-events: auto; }
+        .modal-content {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            border-radius: 1.5rem;
+            max-width: 42rem;
+            width: 100%;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+            transform: scale(0.95);
+            transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+            max-height: 90vh;
+        }
+        .modal.show .modal-content { transform: scale(1); }
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            z-index: 10;
+            background: rgba(15, 23, 42, 0.9);
+            color: #cbd5e1;
+            padding: 0.875rem;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-close:hover { color: #fff; background: rgba(15, 23, 42, 1); transform: rotate(90deg); }
+        .modal-image-wrap {
+            position: relative;
+            height: 16rem;
+            width: 100%;
+            overflow: hidden;
+            background: #05070d;
+        }
+        @media (min-width: 640px) { .modal-image-wrap { height: 18rem; } }
+        .modal-image-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s; }
+        .modal-image-wrap:hover img { transform: scale(1.05); }
+        .modal-image-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(0deg, #0a0f1c, transparent 50%);
+        }
+        .modal-title-overlay {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 2rem;
+            right: 2rem;
+        }
+        .modal-title-overlay h3 {
+            font-size: 1.875rem;
+            font-weight: 800;
+            color: #ffffff;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        @media (min-width: 768px) { .modal-title-overlay h3 { font-size: 2.25rem; } }
+        .modal-body { padding: 2rem; overflow-y: auto; flex-grow: 1; }
+        .modal-desc {
+            color: #cbd5e1;
+            font-size: 1.05rem;
+            line-height: 1.7;
+            border-left: 4px solid #22d3ee;
+            padding-left: 1rem;
+            background: rgba(15, 23, 42, 0.4);
+            border-radius: 0 0.75rem 0.75rem 0;
+            padding-top: 0.25rem;
+            padding-bottom: 0.25rem;
+        }
+        .modal-competencies { margin-top: 1.5rem; }
+        .modal-competencies h4 {
+            font-size: 0.875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: #22d3ee;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .modal-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+            color: #e2e8f0;
+        }
+        @media (min-width: 640px) { .modal-list { grid-template-columns: repeat(2, 1fr); } }
+        .modal-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 0.75rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        .modal-list li:hover { border-color: rgba(34, 211, 238, 0.4); }
+        .modal-list li::before {
+            content: '';
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 50%;
+            background: #22d3ee;
+            box-shadow: 0 0 8px #22d3ee;
+            flex-shrink: 0;
+        }
+        .modal-footer {
+            padding: 1.5rem;
+            background: #05070d;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .modal-btn-secondary {
+            background: rgba(15, 23, 42, 0.8);
+            color: #e2e8f0;
+            font-weight: 600;
+            padding: 0.75rem 2rem;
+            border-radius: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.2s;
+        }
+        .modal-btn-secondary:hover { background: rgba(15, 23, 42, 1); box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+        .modal-btn-primary {
+            background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+            color: #05070d;
+            font-weight: 700;
+            padding: 0.75rem 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 8px 20px rgba(6, 182, 212, 0.3);
+            transition: all 0.2s;
+        }
+        .modal-btn-primary:hover { box-shadow: 0 12px 30px rgba(6, 182, 212, 0.5); transform: translateY(-2px); }
+
+        /* ========== LIGHTBOX ========== */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 55;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        .lightbox.show { opacity: 1; pointer-events: auto; }
+        .lightbox-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: rgba(15, 23, 42, 0.9);
+            color: #cbd5e1;
+            padding: 0.875rem;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .lightbox-close:hover { color: #fff; transform: rotate(90deg); }
+        .lightbox-content {
+            max-width: 64rem;
+            max-height: 75vh;
+            padding: 0.5rem;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(6, 182, 212, 0.2);
+            border-radius: 1rem;
+            overflow: hidden;
+        }
+        .lightbox-content img { max-width: 100%; max-height: 70vh; border-radius: 0.75rem; object-fit: contain; }
+        .lightbox-caption {
+            color: #94a3b8;
+            font-size: 0.875rem;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        /* ========== MEDULLA AI FLOATING BUTTON ========== */
+        .medulla-fab {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.3) 0%, rgba(59, 130, 246, 0.3) 100%);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 2px solid rgba(6, 182, 212, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow:
+                0 0 20px rgba(6, 182, 212, 0.5),
+                0 0 40px rgba(6, 182, 212, 0.3),
+                inset 0 0 20px rgba(6, 182, 212, 0.1),
+                0 10px 30px rgba(0, 0, 0, 0.4);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: pulseGlow 3s infinite;
+            overflow: hidden;
+            transform-style: preserve-3d;
+        }
+        .medulla-fab::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, #06b6d4, #3b82f6, #8b5cf6, #06b6d4);
+            z-index: -1;
+            opacity: 0.5;
+            filter: blur(8px);
+            animation: spin-slow 5s linear infinite;
+        }
+        .medulla-fab::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shine 3s infinite;
+        }
+        .medulla-fab-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            line-height: 1;
+        }
+        .medulla-fab-content .fab-icon {
+            font-size: 1.4rem;
+            color: #ffffff;
+            font-weight: 800;
+            font-family: 'Orbitron', sans-serif;
+            text-shadow: 0 0 10px rgba(6, 182, 212, 0.8);
+        }
+        .medulla-fab-content .fab-text {
+            font-size: 0.55rem;
+            color: #22d3ee;
+            font-weight: 700;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 0.1em;
+            margin-top: 0.15rem;
+            text-shadow: 0 0 8px rgba(34, 211, 238, 0.6);
+        }
+        .medulla-fab:hover {
+            transform: translateY(-6px) scale(1.08);
+            box-shadow:
+                0 0 35px rgba(6, 182, 212, 0.8),
+                0 0 70px rgba(6, 182, 212, 0.5),
+                inset 0 0 25px rgba(6, 182, 212, 0.2),
+                0 20px 40px rgba(0, 0, 0, 0.5);
+            border-color: rgba(6, 182, 212, 1);
+        }
+        .medulla-fab:hover::before { opacity: 0.8; }
+        .medulla-fab:active { transform: translateY(-2px) scale(1.02); }
+        @media (min-width: 640px) {
+            .medulla-fab { width: 80px; height: 80px; bottom: 24px; right: 24px; }
+            .medulla-fab-content .fab-icon { font-size: 1.6rem; }
+            .medulla-fab-content .fab-text { font-size: 0.6rem; }
+        }
+        .medulla-tooltip {
+            position: absolute;
+            right: 90px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            color: #e2e8f0;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            white-space: nowrap;
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        .medulla-tooltip::after {
+            content: '';
+            position: absolute;
+            right: -6px;
+            top: 50%;
+            transform: translateY(-50%) rotate(45deg);
+            width: 10px;
+            height: 10px;
+            background: rgba(15, 23, 42, 0.95);
+            border-right: 1px solid rgba(6, 182, 212, 0.3);
+            border-top: 1px solid rgba(6, 182, 212, 0.3);
+        }
+        .medulla-fab:hover .medulla-tooltip { opacity: 1; transform: translateY(-50%) translateX(-5px); }
+
+        /* ========== SECTION ANCHOR OFFSET ========== */
+        section { scroll-margin-top: 80px; }
+
+        /* ========== UTILITY ========== */
+        ::selection { background: #22d3ee; color: #05070d; }
     </style>
 </head>
-<body class="relative min-h-screen flex flex-col selection:bg-cyan-500 selection:text-black">
+<body>
 
-    <!-- Background glowing visual accents -->
-    <div class="glow-orb-1"></div>
-    <div class="glow-orb-2"></div>
-    <div class="glow-orb-3"></div>
+    <!-- Futuristic Background Layers -->
+    <div class="bg-stage"></div>
+    <div class="bg-grid"></div>
+    <canvas id="particles-canvas"></canvas>
 
-    <!-- Navigation Bar (Enhanced Glassmorphism & Custom Elements) -->
-    <nav class="nav sticky top-0 z-40 w-full backdrop-blur-md bg-[#090d16]/85 border-b border-slate-800/80 transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+    <!-- Glowing orbs -->
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
+    <div class="glow-orb glow-orb-3"></div>
+
+    <!-- Navigation Bar -->
+    <nav class="nav">
+        <div class="nav-inner">
             
-            <!-- Logo Image in Upper Left Corner (Replaced previous brand text) -->
-            <a href="#home" class="flex items-center group">
-                <img 
-                    src="https://i.ibb.co/cKh5DG91/file-000000000188722f9b5a3baedaccc30a.png" 
-                    alt="AK Logo" 
-                    class="h-12 md:h-14 w-auto object-contain hover:scale-105 transition-all duration-300 filter drop-shadow-[0_0_8px_rgba(6,182,212,0.15)]"
-                >
+            <!-- 3D Logo -->
+            <a href="#home" class="logo-wrap" aria-label="AK Home">
+                <div class="logo-3d">
+                    <img 
+                        src="https://i.ibb.co/cKh5DG91/file-000000000188722f9b5a3baedaccc30a.png" 
+                        alt="AK Logo"
+                        loading="lazy"
+                    >
+                </div>
+                <div class="logo-text">
+                    <span class="brand">AK</span>
+                    <span class="tag">world</span>
+                </div>
             </a>
 
             <!-- Desktop Navigation Links -->
-            <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
-                <a href="#home" class="hover:text-cyan-400 transition-colors py-2">Home</a>
-                <a href="#roles" class="hover:text-cyan-400 transition-colors py-2">Roles</a>
-                <a href="#certificates" class="hover:text-cyan-400 transition-colors py-2">Certificates</a>
-                <a href="#contact" class="hover:text-cyan-400 transition-colors py-2">Contact</a>
+            <div class="nav-links">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#roles" class="nav-link">Roles</a>
+                <a href="#certificates" class="nav-link">Certificates</a>
+                <a href="#contact" class="nav-link">Contact</a>
             </div>
 
-            <!-- AK MENU Hamburger Trigger (Replaced "Get in Touch" & mobile menu buttons) -->
+            <!-- AK MENU Hamburger -->
             <div class="ak-menu-btn" id="akMenuBtn" aria-label="Open Menu">
                 <span class="ak-line"></span>
                 <span class="ak-line"></span>
@@ -317,26 +1591,23 @@
         </div>
     </nav>
 
-    <!-- AK Menu Slide-out Drawer & Overlay Elements -->
+    <!-- AK Menu Slide-out Drawer & Overlay -->
     <div class="ak-overlay" id="akOverlay"></div>
     
     <div class="ak-drawer" id="akDrawer">
-        <div class="ak-header flex items-center justify-between">
+        <div class="ak-header flex items-center justify-between" style="display:flex; align-items:center; justify-content:space-between;">
             <h3>AK MENU</h3>
-            <!-- Secondary Drawer Close Trigger -->
-            <button onclick="closeDrawer()" class="text-slate-400 hover:text-white transition-colors p-1" aria-label="Close Drawer">
+            <button onclick="closeDrawer()" class="ak-close-btn" aria-label="Close Drawer" style="color:#94a3b8; transition:color 0.3s; padding:0.25rem;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">
                 <i class="fas fa-times text-xl"></i>
             </button>
         </div>
 
         <div class="ak-content">
-            <!-- Library Collapsible Button -->
             <button class="ak-library-btn" id="akLibraryBtn">
                 <span>AK Library</span>
                 <i class="fas fa-chevron-down text-sm"></i>
             </button>
             
-            <!-- Library Collapsible Content Box -->
             <div class="ak-library-content" id="akLibraryContent">
                 <div class="ak-library-box whitespace-pre-line text-left">Welcome to AK Library.
 
@@ -353,7 +1624,6 @@ Essentials:
             </div>
         </div>
 
-        <!-- Contact Trigger Button in Drawer -->
         <div class="ak-contact-wrap">
             <a href="#contact" class="ak-contact-btn animate-pulse" id="akContactBtn">
                 Contact Us
@@ -362,58 +1632,58 @@ Essentials:
     </div>
 
     <!-- Main Content Container -->
-    <main class="flex-grow">
+    <main>
 
-        <!-- Enhanced Hero Section (Logo removed to Navigation Top Left as requested) -->
-        <section id="home" class="hero section-reveal relative py-20 md:py-28 overflow-hidden">
-            <div class="max-w-7xl mx-auto px-6 relative z-10">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <!-- Hero Section -->
+        <section id="home" class="hero section">
+            <div class="container">
+                <div class="hero-grid">
                     
                     <!-- Left Column: Bios & Introductions -->
-                    <div class="lg:col-span-7 space-y-8 text-center lg:text-left">
-                        <!-- Intro & Bio Text -->
+                    <div class="space-y-8 text-center lg:text-left" style="text-align:center;">
+                        <style>
+                            @media (min-width: 1024px) { #home .hero-grid > div:first-child { text-align: left !important; } }
+                        </style>
                         <div class="space-y-4">
-                            <p class="intro text-cyan-400 font-semibold tracking-widest uppercase text-base code-font" style="font-size: 190%;">
+                            <p class="intro">
                                 Welcome to World of AK
                             </p>
-                            <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-white leading-tight">
-                                Fusing <span class="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">Logic</span> & <span class="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">Creativity</span>
+                            <h1 class="hero-title">
+                                Fusing <span class="gradient-text">Logic</span> & <span class="gradient-text-alt">Creativity</span>
                             </h1>
-                            <p class="bio text-slate-300 text-base md:text-lg leading-relaxed max-w-2xl mx-auto lg:mx-0 font-normal">
+                            <p class="bio mx-auto lg:mx-0">
                                 I am Akshat--Technology is more than a skill—it is a tool for solving problems, creating possibilities, and helping people. AK combines creativity, technical knowledge, and digital innovation to build impactful solutions across multiple domains.
                             </p>
                         </div>
 
                         <!-- Hero Buttons -->
-                        <div class="hero-btns flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
-                            <a href="#roles" class="btn btn-primary w-full sm:w-auto bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold py-4 px-8 rounded-xl shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/30 transition-all duration-300 text-center flex items-center justify-center gap-2">
+                        <div class="hero-btns">
+                            <a href="#roles" class="btn btn-primary">
                                 <span>My Roles</span>
                                 <i class="fas fa-angles-right text-xs"></i>
                             </a>
-                            <a href="#contact" class="btn btn-outline w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-800 hover:border-slate-700 font-semibold py-4 px-8 rounded-xl transition-all duration-300 text-center flex items-center justify-center gap-2">
+                            <a href="#contact" class="btn btn-outline">
                                 <span>Contact Me</span>
-                                <i class="fas fa-envelope text-xs text-cyan-400"></i>
+                                <i class="fas fa-envelope text-xs" style="color:#22d3ee;"></i>
                             </a>
                         </div>
                     </div>
 
-                    <!-- Right Column: Profile Image & Floating Badge -->
-                    <div class="lg:col-span-5 flex justify-center">
-                        <div class="profile-area relative group">
-                            <!-- Glowing Background Ring behind Image -->
-                            <div class="absolute -inset-2 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-600 rounded-3xl blur-xl opacity-40 group-hover:opacity-70 transition duration-1000 group-hover:duration-200"></div>
+                    <!-- Right Column: Profile Image -->
+                    <div class="flex justify-center">
+                        <div class="profile-area" id="profileArea">
+                            <div class="profile-ring"></div>
                             
-                            <!-- Main Profile Container -->
-                            <div class="relative bg-slate-900 border-2 border-slate-800/80 rounded-3xl p-3 overflow-hidden shadow-2xl">
+                            <div class="profile-card">
                                 <img 
                                     src="https://i.ibb.co/FLGjpfdZ/IMG-20260527-WA0003-1.jpg" 
                                     alt="AK Profile" 
-                                    class="profile-img w-72 h-96 md:w-80 md:h-[420px] object-cover rounded-2xl grayscale hover:grayscale-0 transition-all duration-500 ease-in-out"
+                                    class="profile-img"
+                                    loading="lazy"
                                 >
                             </div>
 
-                            <!-- Glowing Wizard Badge -->
-                            <span class="badge-wizard absolute -bottom-4 left-1/2 transform -translate-x-1/2 bg-slate-950 text-cyan-400 border border-cyan-500/60 px-6 py-2 rounded-full text-xs md:text-sm font-black tracking-widest uppercase code-font shadow-2xl pulse-glow whitespace-nowrap">
+                            <span class="badge-wizard">
                                 ⚡ COMPUTER WIZARD ⚡
                             </span>
                         </div>
@@ -424,109 +1694,112 @@ Essentials:
         </section>
 
         <!-- Roles / Domains Section -->
-        <section id="roles" class="page py-24 bg-slate-900/40 border-y border-slate-900 relative z-10">
-            <div class="max-w-7xl mx-auto px-6">
+        <section id="roles" class="page roles-bg">
+            <div class="container">
                 
-                <!-- Section Header -->
-                <div class="text-center max-w-3xl mx-auto mb-20">
-                    <h2 class="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight">
-                        Interconnected <span class="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Domains</span>
+                <div class="section-header reveal">
+                    <h2 class="section-title">
+                        Interconnected <span class="gradient-text">Domains</span>
                     </h2>
-                    <p class="text-slate-400 text-lg leading-relaxed">
+                    <p class="section-subtitle">
                         Explore my core roles. Click on any domain below to uncover specific technical capabilities, software practices, and creative competencies.
                     </p>
                 </div>
 
-                <!-- Domains Cards Grid Container -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="cards-grid">
                     
                     <!-- Card 1: Web Developer -->
-                    <div class="card group relative bg-slate-900/60 hover:bg-slate-900/90 border border-slate-800/80 hover:border-cyan-500/60 rounded-2xl p-8 cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(6,182,212,0.2)] flex flex-col justify-between overflow-hidden" 
+                    <div class="card card-cyan-host reveal tilt-card" 
+                         data-tilt
                          onclick="openModal('Web Developer', 'https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?q=80&w=800&auto=format&fit=crop', 'Building responsive, modern, user-focused websites and web experiences with performance, design, and functionality in mind.', ['HTML5 / CSS3 / JavaScript', 'Modern Frameworks (React/Vue)', 'Responsive Web Design (RWD)', 'CSS Flexbox & Grid', 'Performance Optimization'])">
-                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-500 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div style="position:absolute; top:0; left:0; width:100%; height:3px; background:linear-gradient(90deg, #06b6d4, #3b82f6); opacity:0; transition:opacity 0.3s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0"></div>
                         <div>
-                            <div class="w-14 h-14 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 text-2xl mb-6 group-hover:scale-110 group-hover:bg-cyan-500 group-hover:text-slate-950 transition-all duration-300 shadow-lg">
+                            <div class="card-icon card-cyan">
                                 <i class="fas fa-globe"></i>
                             </div>
-                            <h3 class="text-2xl font-bold text-white mb-4 group-hover:text-cyan-400 transition-colors">Web Developer</h3>
-                            <p class="text-slate-300 leading-relaxed mb-8 opacity-90">
+                            <h3>Web Developer</h3>
+                            <p>
                                 Building responsive, modern, user-focused websites and web experiences with performance, design, and functionality in mind.
                             </p>
                         </div>
-                        <p class="text-cyan-400 font-semibold flex items-center gap-2 group-hover:text-cyan-300 transition-colors mt-auto pt-4 border-t border-slate-800/80">
-                            Read More <i class="fas fa-arrow-right text-sm transition-transform duration-300 group-hover:translate-x-2"></i>
+                        <p class="read-more">
+                            Read More <i class="fas fa-arrow-right text-sm"></i>
                         </p>
                     </div>
 
                     <!-- Card 2: Programmer -->
-                    <div class="card group relative bg-slate-900/60 hover:bg-slate-900/90 border border-slate-800/80 hover:border-blue-500/60 rounded-2xl p-8 cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(59,130,246,0.2)] flex flex-col justify-between overflow-hidden" 
+                    <div class="card card-blue-host reveal tilt-card" 
+                         data-tilt
                          onclick="openModal('Programmer', 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=800&auto=format&fit=crop', 'Developing logical solutions, automation systems, tools, and software concepts using programming principles and problem-solving skills.', ['Python, JavaScript, C++', 'Algorithm Design & Complexity', 'API Integration & Development', 'Workflow Automation Scripts', 'Data Parsing & Structures'])">
-                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div style="position:absolute; top:0; left:0; width:100%; height:3px; background:linear-gradient(90deg, #3b82f6, #6366f1); opacity:0; transition:opacity 0.3s;"></div>
                         <div>
-                            <div class="w-14 h-14 rounded-2xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 text-2xl mb-6 group-hover:scale-110 group-hover:bg-blue-500 group-hover:text-slate-950 transition-all duration-300 shadow-lg">
+                            <div class="card-icon card-blue">
                                 <i class="fas fa-code"></i>
                             </div>
-                            <h3 class="text-2xl font-bold text-white mb-4 group-hover:text-blue-400 transition-colors">Programmer</h3>
-                            <p class="text-slate-300 leading-relaxed mb-8 opacity-90">
+                            <h3>Programmer</h3>
+                            <p>
                                 Developing logical solutions, automation systems, tools, and software concepts using programming principles and problem-solving skills.
                             </p>
                         </div>
-                        <p class="text-blue-400 font-semibold flex items-center gap-2 group-hover:text-blue-300 transition-colors mt-auto pt-4 border-t border-slate-800/80">
-                            Read More <i class="fas fa-arrow-right text-sm transition-transform duration-300 group-hover:translate-x-2"></i>
+                        <p class="read-more">
+                            Read More <i class="fas fa-arrow-right text-sm"></i>
                         </p>
                     </div>
 
                     <!-- Card 3: Graphics Designer -->
-                    <div class="card group relative bg-slate-900/60 hover:bg-slate-900/90 border border-slate-800/80 hover:border-purple-500/60 rounded-2xl p-8 cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(147,51,234,0.2)] flex flex-col justify-between overflow-hidden" 
+                    <div class="card card-purple-host reveal tilt-card" 
+                         data-tilt
                          onclick="openModal('Graphics Designer', 'https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=800&auto=format&fit=crop', 'Creating visually engaging digital designs, branding concepts, posters, and creative assets with attention to detail and aesthetics.', ['Brand Identity & Logo Design', 'UI/UX Visual Prototyping', 'Vector Graphics & Illustration', 'Typography & Color Theory', 'Marketing & Promo Assets'])">
-                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div style="position:absolute; top:0; left:0; width:100%; height:3px; background:linear-gradient(90deg, #a855f7, #ec4899); opacity:0; transition:opacity 0.3s;"></div>
                         <div>
-                            <div class="w-14 h-14 rounded-2xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 text-2xl mb-6 group-hover:scale-110 group-hover:bg-purple-500 group-hover:text-slate-950 transition-all duration-300 shadow-lg">
+                            <div class="card-icon card-purple">
                                 <i class="fas fa-palette"></i>
                             </div>
-                            <h3 class="text-2xl font-bold text-white mb-4 group-hover:text-purple-400 transition-colors">Graphics Designer</h3>
-                            <p class="text-slate-300 leading-relaxed mb-8 opacity-90">
+                            <h3>Graphics Designer</h3>
+                            <p>
                                 Creating visually engaging digital designs, branding concepts, posters, and creative assets with attention to detail and aesthetics.
                             </p>
                         </div>
-                        <p class="text-purple-400 font-semibold flex items-center gap-2 group-hover:text-purple-300 transition-colors mt-auto pt-4 border-t border-slate-800/80">
-                            Read More <i class="fas fa-arrow-right text-sm transition-transform duration-300 group-hover:translate-x-2"></i>
+                        <p class="read-more">
+                            Read More <i class="fas fa-arrow-right text-sm"></i>
                         </p>
                     </div>
 
                     <!-- Card 4: Ethical Hacker -->
-                    <div class="card group relative bg-slate-900/60 hover:bg-slate-900/90 border border-slate-800/80 hover:border-emerald-500/60 rounded-2xl p-8 cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(16,185,129,0.2)] flex flex-col justify-between overflow-hidden" 
+                    <div class="card card-emerald-host reveal tilt-card" 
+                         data-tilt
                          onclick="openModal('Ethical Hacker', 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800&auto=format&fit=crop', 'Understanding cybersecurity principles, identifying vulnerabilities, promoting secure digital practices, and encouraging responsible technology use.', ['Penetration Testing & Auditing', 'Vulnerability Assessment', 'Network Security Foundations', 'Cryptography Basics', 'Security Awareness & Hardening'])">
-                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 to-teal-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div style="position:absolute; top:0; left:0; width:100%; height:3px; background:linear-gradient(90deg, #10b981, #14b8a6); opacity:0; transition:opacity 0.3s;"></div>
                         <div>
-                            <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-2xl mb-6 group-hover:scale-110 group-hover:bg-emerald-500 group-hover:text-slate-950 transition-all duration-300 shadow-lg">
+                            <div class="card-icon card-emerald">
                                 <i class="fas fa-shield-halved"></i>
                             </div>
-                            <h3 class="text-2xl font-bold text-white mb-4 group-hover:text-emerald-400 transition-colors">Ethical Hacker</h3>
-                            <p class="text-slate-300 leading-relaxed mb-8 opacity-90">
+                            <h3>Ethical Hacker</h3>
+                            <p>
                                 Understanding cybersecurity principles, identifying vulnerabilities, promoting secure digital practices, and encouraging responsible technology use.
                             </p>
                         </div>
-                        <p class="text-emerald-400 font-semibold flex items-center gap-2 group-hover:text-emerald-300 transition-colors mt-auto pt-4 border-t border-slate-800/80">
-                            Read More <i class="fas fa-arrow-right text-sm transition-transform duration-300 group-hover:translate-x-2"></i>
+                        <p class="read-more">
+                            Read More <i class="fas fa-arrow-right text-sm"></i>
                         </p>
                     </div>
 
                     <!-- Card 5: Fictional Story Writer -->
-                    <div class="card group relative bg-slate-900/60 hover:bg-slate-900/90 border border-slate-800/80 hover:border-amber-500/60 rounded-2xl p-8 cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(245,158,11,0.2)] flex flex-col justify-between overflow-hidden lg:col-span-1 md:col-span-2 lg:max-w-none md:max-w-md md:mx-auto lg:mx-0 w-full" 
+                    <div class="card card-amber-host reveal tilt-card" 
+                         data-tilt
                          onclick="openModal('Fictional Story Writer', 'https://images.unsplash.com/photo-1455390582262-044c8277a808?q=80&w=800&auto=format&fit=crop', 'Crafting imaginative stories, characters, fictional worlds, and compelling narratives that blend creativity with strategic storytelling.', ['World Building & Lore Conceptualization', 'Character Development & Arcs', 'Engaging Plot & Conflict Design', 'Script & Narrative Writing', 'Short Stories & Creative Prose'])">
-                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-amber-500 to-orange-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div style="position:absolute; top:0; left:0; width:100%; height:3px; background:linear-gradient(90deg, #f59e0b, #ea580c); opacity:0; transition:opacity 0.3s;"></div>
                         <div>
-                            <div class="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-2xl mb-6 group-hover:scale-110 group-hover:bg-amber-500 group-hover:text-slate-950 transition-all duration-300 shadow-lg">
+                            <div class="card-icon card-amber">
                                 <i class="fas fa-book-open-reader"></i>
                             </div>
-                            <h3 class="text-2xl font-bold text-white mb-4 group-hover:text-amber-400 transition-colors">Fictional Story Writer</h3>
-                            <p class="text-slate-300 leading-relaxed mb-8 opacity-90">
+                            <h3>Fictional Story Writer</h3>
+                            <p>
                                 Crafting imaginative stories, characters, fictional worlds, and compelling narratives that blend creativity with strategic storytelling.
                             </p>
                         </div>
-                        <p class="text-amber-400 font-semibold flex items-center gap-2 group-hover:text-amber-300 transition-colors mt-auto pt-4 border-t border-slate-800/80">
-                            Read More <i class="fas fa-arrow-right text-sm transition-transform duration-300 group-hover:translate-x-2"></i>
+                        <p class="read-more">
+                            Read More <i class="fas fa-arrow-right text-sm"></i>
                         </p>
                     </div>
 
@@ -534,30 +1807,28 @@ Essentials:
             </div>
         </section>
 
-        <!-- Portfolio & Achievements Gallery Section (Certificates) -->
-        <section id="certificates" class="py-24 relative z-10">
-            <div class="max-w-7xl mx-auto px-6">
+        <!-- Portfolio & Achievements Gallery Section -->
+        <section id="certificates" class="page">
+            <div class="container">
                 
-                <!-- Section Header -->
-                <div class="text-center max-w-3xl mx-auto mb-16">
-                    <span class="text-cyan-400 font-semibold tracking-widest uppercase text-sm code-font block mb-3">Milestones & Accolades</span>
-                    <h2 class="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight">
-                        Portfolio & Achievements <span class="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Gallery</span>
+                <div class="section-header reveal">
+                    <span class="eyebrow">Milestones & Accolades</span>
+                    <h2 class="section-title">
+                        Portfolio & Achievements <span class="gradient-text">Gallery</span>
                     </h2>
-                    <p class="text-slate-400 text-lg">
+                    <p class="section-subtitle">
                         Visual proof of technical excellence, certifications, and high-impact digital design achievements. Click on any image to view in full resolution.
                     </p>
                 </div>
 
-                <!-- Gallery Cards Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="gallery-grid">
                     <!-- Image 1 -->
-                    <div class="glass-card gallery-card group rounded-2xl overflow-hidden p-3 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(6,182,212,0.15)] cursor-pointer"
+                    <div class="gallery-card reveal"
                          onclick="openImageLightbox('https://i.ibb.co/rRmRhKyt/file-0000000067b87207a3b4bbdce0d0f753.png', 'Portfolio Document / Achievement 1')">
-                        <div class="relative overflow-hidden rounded-xl h-60 w-full bg-slate-950">
-                            <img src="https://i.ibb.co/rRmRhKyt/file-0000000067b87207a3b4bbdce0d0f753.png" alt="Gallery Item 1" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
-                            <div class="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
-                                <span class="bg-slate-900/90 text-cyan-400 px-4 py-2 rounded-full text-xs font-semibold tracking-wide border border-cyan-500/30">
+                        <div class="gallery-img-wrap">
+                            <img src="https://i.ibb.co/rRmRhKyt/file-0000000067b87207a3b4bbdce0d0f753.png" alt="Gallery Item 1" loading="lazy">
+                            <div class="gallery-overlay">
+                                <span>
                                     <i class="fas fa-magnifying-glass-plus mr-1"></i> View Full
                                 </span>
                             </div>
@@ -565,12 +1836,12 @@ Essentials:
                     </div>
 
                     <!-- Image 2 -->
-                    <div class="glass-card gallery-card group rounded-2xl overflow-hidden p-3 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(6,182,212,0.15)] cursor-pointer"
+                    <div class="gallery-card reveal"
                          onclick="openImageLightbox('https://i.ibb.co/XZN8VTG0/IMG-20260615-WA0006.jpg', 'Portfolio Document / Achievement 2')">
-                        <div class="relative overflow-hidden rounded-xl h-60 w-full bg-slate-950">
-                            <img src="https://i.ibb.co/XZN8VTG0/IMG-20260615-WA0006.jpg" alt="Gallery Item 2" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
-                            <div class="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
-                                <span class="bg-slate-900/90 text-cyan-400 px-4 py-2 rounded-full text-xs font-semibold tracking-wide border border-cyan-500/30">
+                        <div class="gallery-img-wrap">
+                            <img src="https://i.ibb.co/XZN8VTG0/IMG-20260615-WA0006.jpg" alt="Gallery Item 2" loading="lazy">
+                            <div class="gallery-overlay">
+                                <span>
                                     <i class="fas fa-magnifying-glass-plus mr-1"></i> View Full
                                 </span>
                             </div>
@@ -578,12 +1849,12 @@ Essentials:
                     </div>
 
                     <!-- Image 3 -->
-                    <div class="glass-card gallery-card group rounded-2xl overflow-hidden p-3 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(6,182,212,0.15)] cursor-pointer"
+                    <div class="gallery-card reveal"
                          onclick="openImageLightbox('https://i.ibb.co/GvyVsZqx/IMG-20260614-WA0005.jpg', 'Portfolio Document / Achievement 3')">
-                        <div class="relative overflow-hidden rounded-xl h-60 w-full bg-slate-950">
-                            <img src="https://i.ibb.co/GvyVsZqx/IMG-20260614-WA0005.jpg" alt="Gallery Item 3" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
-                            <div class="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
-                                <span class="bg-slate-900/90 text-cyan-400 px-4 py-2 rounded-full text-xs font-semibold tracking-wide border border-cyan-500/30">
+                        <div class="gallery-img-wrap">
+                            <img src="https://i.ibb.co/GvyVsZqx/IMG-20260614-WA0005.jpg" alt="Gallery Item 3" loading="lazy">
+                            <div class="gallery-overlay">
+                                <span>
                                     <i class="fas fa-magnifying-glass-plus mr-1"></i> View Full
                                 </span>
                             </div>
@@ -591,122 +1862,116 @@ Essentials:
                     </div>
 
                     <!-- Image 4 -->
-                    <div class="glass-card gallery-card group rounded-2xl overflow-hidden p-3 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(6,182,212,0.15)] cursor-pointer"
+                    <div class="gallery-card reveal"
                          onclick="openImageLightbox('https://i.ibb.co/YF8KpdjD/IMG-20260615-WA0005.jpg', 'Portfolio Document / Achievement 4')">
-                        <div class="relative overflow-hidden rounded-xl h-60 w-full bg-slate-950">
-                            <img src="https://i.ibb.co/YF8KpdjD/IMG-20260615-WA0005.jpg" alt="Gallery Item 4" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
-                            <div class="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
-                                <span class="bg-slate-900/90 text-cyan-400 px-4 py-2 rounded-full text-xs font-semibold tracking-wide border border-cyan-500/30">
+                        <div class="gallery-img-wrap">
+                            <img src="https://i.ibb.co/YF8KpdjD/IMG-20260615-WA0005.jpg" alt="Gallery Item 4" loading="lazy">
+                            <div class="gallery-overlay">
+                                <span>
                                     <i class="fas fa-magnifying-glass-plus mr-1"></i> View Full
                                 </span>
                             </div>
                         </div>
                     </div>
                 
-
-            
-            
                     <!-- Image 5 -->
-                    <div class="glass-card gallery-card group rounded-2xl overflow-hidden p-3 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(6,182,212,0.15)] cursor-pointer"
+                    <div class="gallery-card reveal"
                          onclick="openImageLightbox('https://i.ibb.co/67hC2Ss8/file-00000000401c71f5a0e0c878331dd2c5.png', 'Portfolio Document / Achievement 5')">
-                        <div class="relative overflow-hidden rounded-xl h-60 w-full bg-slate-950">
-                            <img src="https://i.ibb.co/67hC2Ss8/file-00000000401c71f5a0e0c878331dd2c5.png" alt="Gallery Item 5" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
-                            <div class="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
-                                <span class="bg-slate-900/90 text-cyan-400 px-4 py-2 rounded-full text-xs font-semibold tracking-wide border border-cyan-500/30">
+                        <div class="gallery-img-wrap">
+                            <img src="https://i.ibb.co/67hC2Ss8/file-00000000401c71f5a0e0c878331dd2c5.png" alt="Gallery Item 5" loading="lazy">
+                            <div class="gallery-overlay">
+                                <span>
                                     <i class="fas fa-magnifying-glass-plus mr-1"></i> View Full
                                 </span>
                             </div>
                         </div>
                     </div>
                    
-                              <!-- Image 6 -->
-                    <div class="glass-card gallery-card group rounded-2xl overflow-hidden p-3 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(6,182,212,0.15)] cursor-pointer"
+                    <!-- Image 6 -->
+                    <div class="gallery-card reveal"
                          onclick="openImageLightbox('https://i.ibb.co/2BtF8TJ/file-00000000c02471f59ec157b5b5f0b836.png', 'Portfolio Document / Achievement 6')">
-                        <div class="relative overflow-hidden rounded-xl h-60 w-full bg-slate-950">
-                            <img src="https://i.ibb.co/2BtF8TJ/file-00000000c02471f59ec157b5b5f0b836.png" alt="Gallery Item 6" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
-                            <div class="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
-                                <span class="bg-slate-900/90 text-cyan-400 px-4 py-2 rounded-full text-xs font-semibold tracking-wide border border-cyan-500/30">
+                        <div class="gallery-img-wrap">
+                            <img src="https://i.ibb.co/2BtF8TJ/file-00000000c02471f59ec157b5b5f0b836.png" alt="Gallery Item 6" loading="lazy">
+                            <div class="gallery-overlay">
+                                <span>
                                     <i class="fas fa-magnifying-glass-plus mr-1"></i> View Full
                                 </span>
                             </div>
                         </div>
                     </div>
-                   </div>
+                </div>
 
+            </div>
         </section>
 
-        <!-- About Section (Synthesizing Logic, Art & Security into One Vision) -->
-        <section id="about" class="about py-24 bg-slate-900/20 border-t border-slate-900 relative z-10">
-            <div class="max-w-7xl mx-auto px-6">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <!-- About Section -->
+        <section id="about" class="about page">
+            <div class="container">
+                <div class="about-grid">
                     
                     <!-- Visual Code Side -->
-                    <div class="lg:col-span-5 relative">
-                        <div class="relative mx-auto max-w-md lg:max-w-none">
-                            <div class="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-3xl blur-lg opacity-50 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
-                            <div class="relative bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-2xl">
-                                <div class="flex items-center justify-between border-b border-slate-800 pb-6 mb-6">
-                                    <div class="flex gap-2">
-                                        <div class="w-3 h-3 rounded-full bg-red-500"></div>
-                                        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
-                                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
-                                    </div>
-                                    <span class="code-font text-xs text-slate-400">ak_core_matrix.sh</span>
+                    <div class="relative">
+                        <div class="code-card animate-float">
+                            <div class="code-header">
+                                <div class="code-dots">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
                                 </div>
-                                <div class="code-font text-sm text-slate-300 space-y-4">
-                                    <p><span class="text-cyan-400">&gt;</span> init_system --load ak_profile</p>
-                                    <p class="text-slate-400">Loading modules: Tech, Art, Security, Fiction...</p>
-                                    <p><span class="text-cyan-400">&gt;</span> check_status --all</p>
-                                    <p class="text-green-400">✔ All subsystems operational.</p>
-                                    <div class="p-4 bg-slate-950/80 rounded-xl border border-slate-800 text-slate-300 font-sans mt-6">
-                                        <p class="italic text-slate-400">"True innovation happens when structured logic collides with untamed creativity."</p>
-                                    </div>
+                                <span class="code-font text-xs" style="color:#94a3b8;">ak_core_matrix.sh</span>
+                            </div>
+                            <div class="code-content">
+                                <p><span class="accent">&gt;</span> init_system --load ak_profile</p>
+                                <p class="muted">Loading modules: Tech, Art, Security, Fiction...</p>
+                                <p><span class="accent">&gt;</span> check_status --all</p>
+                                <p class="success">✔ All subsystems operational.</p>
+                                <div class="code-quote">
+                                    <p>"True innovation happens when structured logic collides with untamed creativity."</p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Text Content Side -->
-                    <div class="lg:col-span-7 lg:pl-8">
-                        <span class="text-cyan-400 font-semibold tracking-widest uppercase text-sm block mb-3">Behind The Execution</span>
-                        <h2 class="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight leading-tight">
+                    <div class="about-text">
+                        <span class="eyebrow">Behind The Execution</span>
+                        <h2 class="section-title" style="text-align:left; font-size:clamp(1.875rem, 4vw, 2.75rem); margin-bottom:1.5rem;">
                             Synthesizing Logic, Art & Security into One Vision
                         </h2>
-                        <p class="text-slate-300 text-lg leading-relaxed mb-6">
+                        <p>
                             The digital landscape is often siloed into isolated specialties. By fusing the rigorous logic of a programmer, the aesthetic refinement of a graphics designer, the defensive mindset of an ethical hacker, and the world-building vision of a story writer, I craft holistic experiences that stand out.
                         </p>
-                        <p class="text-slate-400 leading-relaxed mb-10">
+                        <p>
                             Whether architecting high-performance web systems or conceptualizing rich fictional lore, every project is treated with meticulous attention to detail, scalable architecture, and an unwavering commitment to outstanding user experience.
                         </p>
 
-                        <!-- Feature Badges -->
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div class="flex items-center gap-4 p-4 rounded-xl bg-slate-900/50 border border-slate-850">
-                                <i class="fas fa-gears text-2xl text-cyan-400"></i>
+                        <div class="feature-badges">
+                            <div class="feature-badge">
+                                <i class="fas fa-gears" style="color:#22d3ee; font-size:1.5rem;"></i>
                                 <div>
-                                    <h4 class="font-bold text-white text-base">Analytical Rigor</h4>
-                                    <p class="text-slate-400 text-xs">Robust, maintainable software architecture</p>
+                                    <h4>Analytical Rigor</h4>
+                                    <p>Robust, maintainable software architecture</p>
                                 </div>
                             </div>
-                            <div class="flex items-center gap-4 p-4 rounded-xl bg-slate-900/50 border border-slate-850">
-                                <i class="fas fa-lock text-2xl text-emerald-400"></i>
+                            <div class="feature-badge">
+                                <i class="fas fa-lock" style="color:#34d399; font-size:1.5rem;"></i>
                                 <div>
-                                    <h4 class="font-bold text-white text-base">Security First</h4>
-                                    <p class="text-slate-400 text-xs">Vulnerability-aware engineering principles</p>
+                                    <h4>Security First</h4>
+                                    <p>Vulnerability-aware engineering principles</p>
                                 </div>
                             </div>
-                            <div class="flex items-center gap-4 p-4 rounded-xl bg-slate-900/50 border border-slate-850">
-                                <i class="fas fa-wand-magic-sparkles text-2xl text-purple-400"></i>
+                            <div class="feature-badge">
+                                <i class="fas fa-wand-magic-sparkles" style="color:#c084fc; font-size:1.5rem;"></i>
                                 <div>
-                                    <h4 class="font-bold text-white text-base">Creative Precision</h4>
-                                    <p class="text-slate-400 text-xs">Aesthetic perfection & visual UI/UX</p>
+                                    <h4>Creative Precision</h4>
+                                    <p>Aesthetic perfection & visual UI/UX</p>
                                 </div>
                             </div>
-                            <div class="flex items-center gap-4 p-4 rounded-xl bg-slate-900/50 border border-slate-850">
-                                <i class="fas fa-feather-pointed text-2xl text-amber-400"></i>
+                            <div class="feature-badge">
+                                <i class="fas fa-feather-pointed" style="color:#fbbf24; font-size:1.5rem;"></i>
                                 <div>
-                                    <h4 class="font-bold text-white text-base">Narrative Depth</h4>
-                                    <p class="text-slate-400 text-xs">Engaging worlds & immersive lore</p>
+                                    <h4>Narrative Depth</h4>
+                                    <p>Engaging worlds & immersive lore</p>
                                 </div>
                             </div>
                         </div>
@@ -716,118 +1981,108 @@ Essentials:
             </div>
         </section>
 
-        <!-- Contact & Connection Section -->
-        <section id="contact" class="contact py-24 bg-[#090d16]/70 border-t border-slate-900 relative z-10">
-            <div class="max-w-5xl mx-auto px-6 text-center space-y-24">
+        <!-- Contact Section -->
+        <section id="contact" class="contact page">
+            <div class="container contact-spacing">
                 
-                <!-- NEW SECTION: Stay Connected With AK (Visitor Connection Form) -->
-                <div class="glass-card rounded-3xl p-8 md:p-12 max-w-3xl mx-auto border border-slate-800/80 shadow-2xl relative overflow-hidden">
-                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-600"></div>
-                    
-                    <div class="space-y-6 mb-8 text-center">
-                        <h3 class="text-3xl font-extrabold text-white tracking-tight">
-                            Stay Connected With AK
-                        </h3>
-                        <p class="text-slate-300 text-base md:text-lg leading-relaxed max-w-xl mx-auto">
-                            "Get updates, future projects, exclusive content, and technology insights from AK. Leave your details below so we can stay connected."
-                        </p>
+                <!-- Stay Connected With AK -->
+                <div class="visitor-card reveal">
+                    <div style="position:relative; z-index:1;">
+                        <div style="margin-bottom:2rem;">
+                            <h3>Stay Connected With AK</h3>
+                            <p>"Get updates, future projects, exclusive content, and technology insights from AK. Leave your details below so we can stay connected."</p>
+                        </div>
+
+                        <form class="popup-form" action="https://formspree.io/f/xgobnrbj" method="POST" id="visitorForm" onsubmit="handleFormSubmit(event)">
+                            
+                            <div class="form-group">
+                                <label for="visitorName">Full Name</label>
+                                <input 
+                                    type="text" 
+                                    id="visitorName"
+                                    name="Name" 
+                                    placeholder="e.g. John Doe" 
+                                    required 
+                                    autocomplete="name"
+                                >
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="visitorPhone">Phone Number</label>
+                                <input 
+                                    type="tel" 
+                                    id="visitorPhone"
+                                    name="Phone Number" 
+                                    placeholder="e.g. +1 (555) 000-0000" 
+                                    required 
+                                    autocomplete="tel"
+                                >
+                            </div>
+
+                            <input type="hidden" name="Submission Date & Time" id="submissionTime">
+                            
+                            <button type="submit" class="submit-btn">
+                                <span>Join The AK Network</span>
+                                <i class="fas fa-wifi text-sm animate-pulse"></i>
+                            </button>
+                        </form>
                     </div>
-
-                    <!-- Enhanced Formspree Submission Form -->
-                    <form class="popup-form space-y-5 max-w-lg mx-auto text-left" action="https://formspree.io/f/xgobnrbj" method="POST" id="visitorForm" onsubmit="handleFormSubmit(event)">
-                        
-                        <div>
-                            <label for="visitorName" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 code-font">Full Name</label>
-                            <input 
-                                type="text" 
-                                id="visitorName"
-                                name="Name" 
-                                placeholder="e.g. John Doe" 
-                                required 
-                                autocomplete="name"
-                                class="w-full bg-slate-950/80 border border-slate-800 hover:border-slate-700 focus:border-cyan-500/80 rounded-xl px-4 py-3.5 text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/10 transition-all duration-200"
-                            >
-                        </div>
-                        
-                        <div>
-                            <label for="visitorPhone" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 code-font">Phone Number</label>
-                            <input 
-                                type="tel" 
-                                id="visitorPhone"
-                                name="Phone Number" 
-                                placeholder="e.g. +1 (555) 000-0000" 
-                                required 
-                                autocomplete="tel"
-                                class="w-full bg-slate-950/80 border border-slate-800 hover:border-slate-700 focus:border-cyan-500/80 rounded-xl px-4 py-3.5 text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/10 transition-all duration-200"
-                            >
-                        </div>
-
-                        <!-- Date & Time Hidden Input dynamically captured on submit -->
-                        <input type="hidden" name="Submission Date & Time" id="submissionTime">
-                        
-                        <button type="submit" class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-extrabold py-4 px-8 rounded-xl shadow-lg shadow-cyan-500/15 hover:shadow-cyan-500/35 hover:-translate-y-0.5 transition-all duration-300 text-center flex items-center justify-center gap-2">
-                            <span>Join The AK Network</span>
-                            <i class="fas fa-wifi text-sm animate-pulse"></i>
-                        </button>
-                    </form>
                 </div>
 
-                <!-- ORIGINAL SECTION: CONTACT AK -->
-                <div class="space-y-16">
-                    <div class="text-center">
-                        <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-6 tracking-tight">
+                <!-- CONTACT AK -->
+                <div>
+                    <div class="text-center" style="margin-bottom:4rem;">
+                        <h2 class="section-title">
                             CONTACT AK
                         </h2>
-                        <p class="contact-desc text-slate-400 text-lg max-w-2xl mx-auto leading-relaxed">
+                        <p class="contact-desc">
                             Have a question, an interesting project, or simply want to connect? Reach out through the primary channels below.
                         </p>
                     </div>
 
-                    <!-- Specified Contact Grid in Glassmorphism Cards -->
-                    <div class="contact-grid grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="contact-grid">
                         <!-- Email Card -->
-                        <a href="mailto:aktestingid094@gmail.com" class="glass-card contact-card group flex flex-col items-center p-8 rounded-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(6,182,212,0.15)]">
-                            <div class="w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 text-2xl mb-6 group-hover:scale-110 group-hover:bg-cyan-500 group-hover:text-slate-950 transition-all duration-300">
+                        <a href="mailto:aktestingid094@gmail.com" class="contact-card">
+                            <div class="contact-icon cyan">
                                 <i class="fas fa-envelope"></i>
                             </div>
-                            <span class="text-slate-200 font-semibold group-hover:text-cyan-400 transition-colors text-sm tracking-wide break-all">
+                            <span class="cyan-text">
                                 aktestingid094@gmail.com
                             </span>
                         </a>
 
                         <!-- Instagram Card -->
-                        <a href="https://instagram.com/akzone84" target="_blank" class="glass-card contact-card group flex flex-col items-center p-8 rounded-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(147,51,234,0.15)]">
-                            <div class="w-16 h-16 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 text-2xl mb-6 group-hover:scale-110 group-hover:bg-purple-500 group-hover:text-slate-950 transition-all duration-300">
+                        <a href="https://instagram.com/akzone84" target="_blank" class="contact-card">
+                            <div class="contact-icon purple">
                                 <i class="fab fa-instagram"></i>
                             </div>
-                            <span class="text-slate-200 font-semibold group-hover:text-purple-400 transition-colors text-sm tracking-wide">
+                            <span class="purple-text">
                                 @akzone84
                             </span>
                         </a>
 
                         <!-- GitHub Card -->
-                        <a href="https://github.com/akshatsharma-cyber84" target="_blank" class="glass-card contact-card group flex flex-col items-center p-8 rounded-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(59,130,246,0.15)]">
-                            <div class="w-16 h-16 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 text-2xl mb-6 group-hover:scale-110 group-hover:bg-blue-500 group-hover:text-slate-950 transition-all duration-300">
+                        <a href="https://github.com/akshatsharma-cyber84" target="_blank" class="contact-card">
+                            <div class="contact-icon blue">
                                 <i class="fab fa-github"></i>
                             </div>
-                            <span class="text-slate-200 font-semibold group-hover:text-blue-400 transition-colors text-sm tracking-wide">
+                            <span class="blue-text">
                                 akshatsharma-cyber384
                             </span>
                         </a>
                     </div>
 
-                    <!-- Specified Social Icons Section -->
-                    <div class="social-icons flex items-center justify-center gap-6">
-                        <a href="https://instagram.com/akzone84" target="_blank" class="social-icon-btn w-14 h-14 rounded-full bg-slate-900 border border-slate-800 hover:border-cyan-500/50 flex items-center justify-center text-slate-400 hover:text-cyan-400 transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-cyan-500/10" aria-label="Instagram">
+                    <div class="social-icons" style="margin-top:3rem;">
+                        <a href="https://instagram.com/akzone84" target="_blank" class="social-icon-btn" aria-label="Instagram">
                             <i class="fab fa-instagram text-xl"></i>
                         </a>
-                        <a href="mailto:aktestingid094@gmail.com" class="social-icon-btn w-14 h-14 rounded-full bg-slate-900 border border-slate-800 hover:border-cyan-500/50 flex items-center justify-center text-slate-400 hover:text-cyan-400 transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-cyan-500/10" aria-label="Email">
+                        <a href="mailto:aktestingid094@gmail.com" class="social-icon-btn" aria-label="Email">
                             <i class="fas fa-envelope text-xl"></i>
                         </a>
-                        <a href="https://github.com/akshatsharma-cyber84" target="_blank" class="social-icon-btn w-14 h-14 rounded-full bg-slate-900 border border-slate-800 hover:border-cyan-500/50 flex items-center justify-center text-slate-400 hover:text-cyan-400 transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-cyan-500/10" aria-label="GitHub">
+                        <a href="https://github.com/akshatsharma-cyber84" target="_blank" class="social-icon-btn" aria-label="GitHub">
                             <i class="fab fa-github text-xl"></i>
                         </a>
-                        <a href="#" class="social-icon-btn w-14 h-14 rounded-full bg-slate-900 border border-slate-800 hover:border-cyan-500/50 flex items-center justify-center text-slate-400 hover:text-cyan-400 transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-cyan-500/10" aria-label="Source Code">
+                        <a href="#" class="social-icon-btn" aria-label="Source Code">
                             <i class="fas fa-code text-xl"></i>
                         </a>
                     </div>
@@ -838,69 +2093,63 @@ Essentials:
 
     </main>
 
-    <!-- Footer Section (Updated to user-specified copyright info) -->
-    <footer class="footer bg-slate-950 border-t border-slate-900/80 py-10 text-slate-400 text-sm relative z-10">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
-            <div class="flex items-center gap-3">
-                <img 
-                    src="https://i.ibb.co/cKh5DG91/file-000000000188722f9b5a3baedaccc30a.png" 
-                    alt="AK Logo" 
-                    class="h-10 w-auto object-contain"
-                >
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div style="display:flex; align-items:center; gap:0.75rem;">
+                <div class="logo-3d" style="width:48px; height:48px; border-radius:12px;">
+                    <img 
+                        src="https://i.ibb.co/cKh5DG91/file-000000000188722f9b5a3baedaccc30a.png" 
+                        alt="AK Logo" 
+                        loading="lazy"
+                        style="width:32px; height:32px;"
+                    >
+                </div>
             </div>
-            <p class="text-center md:text-left text-xs md:text-sm text-slate-500">
+            <p>
                 © 2026 AK Industries Founder-Akshat Sharma. All rights reserved.
             </p>
-            <div class="flex items-center gap-6 text-base">
-                <a href="https://github.com/akshatsharma-cyber84" target="_blank" class="hover:text-cyan-400 transition-colors" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
-                <a href="https://instagram.com/akzone84" target="_blank" class="hover:text-cyan-400 transition-colors" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                <a href="mailto:aktestingid094@gmail.com" class="hover:text-cyan-400 transition-colors" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+            <div class="footer-social">
+                <a href="https://github.com/akshatsharma-cyber84" target="_blank" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+                <a href="https://instagram.com/akzone84" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="mailto:aktestingid094@gmail.com" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
             </div>
         </div>
     </footer>
 
-    <!-- Preserved Modal Container Structure with Enhanced Glassmorphism & UX Animations -->
-    <div id="modal" class="modal fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 transition-all duration-300 opacity-0 pointer-events-none">
-        <!-- Modal Content Box -->
-        <div id="modalContent" class="bg-slate-900 border border-slate-800 rounded-3xl max-w-2xl w-full overflow-hidden shadow-[0_25px_50px_-12px_rgba(0,0,0,0.85)] transform scale-95 transition-all duration-300 flex flex-col max-h-[90vh]">
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div id="modalContent" class="modal-content" style="position:relative;">
             
-            <!-- Close Button (Top Right Absolute) -->
-            <button onclick="closeModal()" class="absolute top-4 right-4 z-10 bg-slate-900/80 text-slate-300 hover:text-white hover:bg-slate-800 p-3.5 rounded-full transition-all duration-200 focus:outline-none shadow-lg border border-slate-800" aria-label="Close Modal">
-                <i class="fas fa-times text-lg w-5 h-5 flex items-center justify-center"></i>
+            <button onclick="closeModal()" class="modal-close" aria-label="Close Modal">
+                <i class="fas fa-times text-lg"></i>
             </button>
 
-            <!-- Modal Header Image -->
-            <div class="relative h-64 sm:h-72 w-full overflow-hidden bg-slate-950">
-                <img id="modalImage" src="" alt="Domain Representation" class="w-full h-full object-cover object-center transition-transform duration-700 hover:scale-105">
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/20 to-transparent"></div>
-                <!-- Title Overlay -->
-                <div class="absolute bottom-6 left-8 right-8">
-                    <h3 id="modalTitle" class="text-3xl md:text-4xl font-extrabold text-white tracking-tight drop-shadow-md"></h3>
+            <div class="modal-image-wrap">
+                <img id="modalImage" src="" alt="Domain Representation" loading="lazy">
+                <div class="modal-image-overlay"></div>
+                <div class="modal-title-overlay">
+                    <h3 id="modalTitle"></h3>
                 </div>
             </div>
 
-            <!-- Modal Body -->
-            <div class="p-8 overflow-y-auto space-y-6 flex-grow custom-scrollbar">
-                <!-- Description -->
-                <p id="modalDesc" class="text-slate-300 text-lg leading-relaxed border-l-4 border-cyan-500 pl-4 py-1 bg-slate-800/40 rounded-r-xl"></p>
+            <div class="modal-body">
+                <p id="modalDesc" class="modal-desc"></p>
                 
-                <!-- Competencies & Highlights List -->
-                <div>
-                    <h4 class="text-sm font-bold uppercase tracking-widest text-cyan-400 mb-4 flex items-center gap-2">
-                        <i class="fas fa-cube text-base"></i> Core Competencies & Highlights
+                <div class="modal-competencies">
+                    <h4>
+                        <i class="fas fa-cube"></i> Core Competencies & Highlights
                     </h4>
-                    <ul id="modalList" class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-slate-200">
-                        <!-- List items injected dynamically via JS -->
+                    <ul id="modalList" class="modal-list">
                     </ul>
                 </div>
             </div>
 
-            <!-- Modal Footer -->
-            <div class="p-6 bg-slate-950 border-t border-slate-800 flex items-center justify-end gap-4">
-                <button onclick="closeModal()" class="btn bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold py-3 px-8 rounded-xl border border-slate-800 transition-all duration-200 hover:shadow-lg">
+            <div class="modal-footer">
+                <button onclick="closeModal()" class="modal-btn-secondary">
                     Close Window
                 </button>
-                <a href="#contact" onclick="closeModal()" class="btn bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold py-3 px-8 rounded-xl shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 transition-all duration-200">
+                <a href="#contact" onclick="closeModal()" class="modal-btn-primary">
                     Inquire About Domain
                 </a>
             </div>
@@ -908,20 +2157,141 @@ Essentials:
         </div>
     </div>
 
-    <!-- Image Lightbox Modal for Gallery / Certificates Preview -->
-    <div id="imageLightbox" class="fixed inset-0 bg-black/95 backdrop-blur-md z-55 flex flex-col items-center justify-center p-4 transition-all duration-300 opacity-0 pointer-events-none" onclick="closeImageLightbox()">
-        <button onclick="closeImageLightbox()" class="absolute top-6 right-6 z-60 bg-slate-900/80 text-slate-300 hover:text-white p-3.5 rounded-full border border-slate-800 transition-all duration-200" aria-label="Close Lightbox">
-            <i class="fas fa-times text-xl w-6 h-6 flex items-center justify-center"></i>
+    <!-- Image Lightbox -->
+    <div id="imageLightbox" class="lightbox" onclick="closeImageLightbox()">
+        <button onclick="closeImageLightbox()" class="lightbox-close" aria-label="Close Lightbox">
+            <i class="fas fa-times text-xl"></i>
         </button>
-        <div class="max-w-4xl max-h-[75vh] p-2 bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl" onclick="event.stopPropagation()">
-            <img id="lightboxImg" src="" alt="Full Resolution" class="max-w-full max-h-[70vh] rounded-xl object-contain">
+        <div class="lightbox-content" onclick="event.stopPropagation()">
+            <img id="lightboxImg" src="" alt="Full Resolution" loading="lazy">
         </div>
-        <p id="lightboxCaption" class="text-slate-400 text-sm mt-4 tracking-wide code-font"></p>
+        <p id="lightboxCaption" class="lightbox-caption"></p>
     </div>
 
-    <!-- JavaScript Actions (Drawer Control, Accoridon Toggle & Timestamp Generation) -->
+    <!-- Medulla AI Floating Button -->
+    <a href="https://akshatsharma-cyber84.github.io/medulla/" target="_blank" rel="noopener noreferrer" class="medulla-fab" aria-label="Open Medulla AI">
+        <div class="medulla-fab-content">
+            <span class="fab-icon">M</span>
+            <span class="fab-text">MEDULLA</span>
+        </div>
+        <span class="medulla-tooltip">Launch Medulla AI ✨</span>
+    </a>
+
     <script>
-        // DOM Elements for AK Menu & Drawer
+        // ========== PARTICLE BACKGROUND ==========
+        (function() {
+            const canvas = document.getElementById('particles-canvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            let w, h;
+            const PARTICLE_COUNT = window.innerWidth < 768 ? 40 : 80;
+
+            function resize() {
+                w = canvas.width = window.innerWidth;
+                h = canvas.height = window.innerHeight;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * w;
+                    this.y = Math.random() * h;
+                    this.size = Math.random() * 2 + 0.5;
+                    this.speedX = (Math.random() - 0.5) * 0.4;
+                    this.speedY = (Math.random() - 0.5) * 0.4;
+                    this.opacity = Math.random() * 0.5 + 0.2;
+                    this.color = Math.random() > 0.5 ? '6, 182, 212' : '59, 130, 246';
+                }
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    if (this.x < 0 || this.x > w) this.speedX *= -1;
+                    if (this.y < 0 || this.y > h) this.speedY *= -1;
+                }
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(${this.color}, ${this.opacity})`;
+                    ctx.fill();
+                }
+            }
+
+            for (let i = 0; i < PARTICLE_COUNT; i++) particles.push(new Particle());
+
+            function connect() {
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const dist = Math.sqrt(dx*dx + dy*dy);
+                        if (dist < 120) {
+                            ctx.beginPath();
+                            ctx.strokeStyle = `rgba(6, 182, 212, ${0.15 * (1 - dist/120)})`;
+                            ctx.lineWidth = 0.5;
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, w, h);
+                particles.forEach(p => { p.update(); p.draw(); });
+                connect();
+                requestAnimationFrame(animate);
+            }
+            animate();
+        })();
+
+        // ========== SCROLL REVEAL ==========
+        const reveals = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, i) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => entry.target.classList.add('active'), i * 80);
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        reveals.forEach(el => revealObserver.observe(el));
+
+        // ========== 3D TILT EFFECT ==========
+        document.querySelectorAll('.tilt-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const cx = rect.width / 2;
+                const cy = rect.height / 2;
+                const rotateX = ((y - cy) / cy) * -8;
+                const rotateY = ((x - cx) / cx) * 8;
+                card.style.transform = `translateY(-8px) perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+                card.style.setProperty('--mx', `${(x / rect.width) * 100}%`);
+                card.style.setProperty('--my', `${(y / rect.height) * 100}%`);
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+            });
+        });
+
+        // ========== PROFILE 3D TILT ==========
+        const profile = document.getElementById('profileArea');
+        if (profile) {
+            profile.addEventListener('mousemove', (e) => {
+                const rect = profile.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width/2;
+                const y = e.clientY - rect.top - rect.height/2;
+                profile.style.transform = `perspective(1000px) rotateY(${x/20}deg) rotateX(${-y/20}deg)`;
+            });
+            profile.addEventListener('mouseleave', () => {
+                profile.style.transform = '';
+            });
+        }
+
+        // ========== AK MENU ==========
         const akMenuBtn = document.getElementById('akMenuBtn');
         const akDrawer = document.getElementById('akDrawer');
         const akOverlay = document.getElementById('akOverlay');
@@ -929,29 +2299,22 @@ Essentials:
         const akLibraryBtn = document.getElementById('akLibraryBtn');
         const akLibraryContent = document.getElementById('akLibraryContent');
 
-        // Toggle Drawer on Hamburger Click
         if (akMenuBtn && akDrawer && akOverlay) {
             akMenuBtn.addEventListener('click', () => {
                 akMenuBtn.classList.toggle('active');
                 akDrawer.classList.toggle('active');
                 akOverlay.classList.toggle('active');
             });
-
-            // Close Drawer on Overlay click or Contact Click
             akOverlay.addEventListener('click', closeDrawer);
-            if (akContactBtn) {
-                akContactBtn.addEventListener('click', closeDrawer);
-            }
+            if (akContactBtn) akContactBtn.addEventListener('click', closeDrawer);
         }
 
-        // Helper to close drawer
         function closeDrawer() {
             if (akMenuBtn) akMenuBtn.classList.remove('active');
             if (akDrawer) akDrawer.classList.remove('active');
             if (akOverlay) akOverlay.classList.remove('active');
         }
 
-        // Toggle Library Accordion Content
         if (akLibraryBtn && akLibraryContent) {
             akLibraryBtn.addEventListener('click', () => {
                 akLibraryBtn.classList.toggle('active');
@@ -959,94 +2322,63 @@ Essentials:
             });
         }
 
-        // Preserved openModal function handling Title, Image, Description, and List array
+        // ========== MODAL ==========
         function openModal(title, image, desc, list) {
             const modal = document.getElementById('modal');
-            const modalContent = document.getElementById('modalContent');
             const modalTitle = document.getElementById('modalTitle');
             const modalImage = document.getElementById('modalImage');
             const modalDesc = document.getElementById('modalDesc');
             const modalList = document.getElementById('modalList');
-
             if (!modal) return;
 
-            // Populate Modal Contents
             modalTitle.innerText = title;
             modalImage.src = image;
             modalDesc.innerText = desc;
-            
-            // Populate List dynamically with premium UI list styles
             modalList.innerHTML = '';
             list.forEach(item => {
                 const li = document.createElement('li');
-                li.className = 'flex items-center gap-3 p-3 bg-slate-800/60 border border-slate-800/60 rounded-xl text-sm font-medium shadow-sm hover:border-cyan-500/50 transition-colors';
-                li.innerHTML = `<span class="w-2 h-2 rounded-full bg-cyan-400 shadow-sm shadow-cyan-400"></span> <span>${item}</span>`;
+                li.innerHTML = `<span>${item}</span>`;
                 modalList.appendChild(li);
             });
 
-            // Trigger Display & Animations
-            modal.classList.remove('opacity-0', 'pointer-events-none');
-            modal.classList.add('opacity-100', 'pointer-events-auto');
-            modalContent.classList.remove('scale-95');
-            modalContent.classList.add('scale-100');
-
-            // Lock body scroll to enhance UX
+            modal.classList.add('show');
             document.body.style.overflow = 'hidden';
         }
 
-        // Preserved closeModal function
         function closeModal() {
             const modal = document.getElementById('modal');
-            const modalContent = document.getElementById('modalContent');
-
             if (!modal) return;
-
-            // Trigger Hide Animations
-            modal.classList.remove('opacity-100', 'pointer-events-auto');
-            modal.classList.add('opacity-0', 'pointer-events-none');
-            modalContent.classList.remove('scale-100');
-            modalContent.classList.add('scale-95');
-
-            // Restore body scroll
+            modal.classList.remove('show');
             document.body.style.overflow = '';
         }
 
-        // Open Image Lightbox
+        // ========== LIGHTBOX ==========
         function openImageLightbox(src, caption) {
             const lightbox = document.getElementById('imageLightbox');
             const lightboxImg = document.getElementById('lightboxImg');
             const lightboxCaption = document.getElementById('lightboxCaption');
-
             if (!lightbox || !lightboxImg) return;
-
             lightboxImg.src = src;
             lightboxCaption.innerText = caption || 'Achievement Gallery Item';
-
-            lightbox.classList.remove('opacity-0', 'pointer-events-none');
-            lightbox.classList.add('opacity-100', 'pointer-events-auto');
-
+            lightbox.classList.add('show');
             document.body.style.overflow = 'hidden';
         }
 
-        // Close Image Lightbox
         function closeImageLightbox() {
             const lightbox = document.getElementById('imageLightbox');
             if (!lightbox) return;
-
-            lightbox.classList.remove('opacity-100', 'pointer-events-auto');
-            lightbox.classList.add('opacity-0', 'pointer-events-none');
-
+            lightbox.classList.remove('show');
             document.body.style.overflow = '';
         }
 
-        // Close modal on outside backdrop click
-        document.getElementById('modal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeModal();
-            }
-        });
+        // ========== CLOSE HANDLERS ==========
+        const modalEl = document.getElementById('modal');
+        if (modalEl) {
+            modalEl.addEventListener('click', function(e) {
+                if (e.target === this) closeModal();
+            });
+        }
 
-        // Close modals on Escape keypress
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 closeModal();
@@ -1055,17 +2387,12 @@ Essentials:
             }
         });
 
-        // Handle Formspree Connection Form submission with precise client timestamping & AJAX response
+        // ========== FORM SUBMIT ==========
         function handleFormSubmit(event) {
             event.preventDefault();
-            
             const form = event.target;
             const submissionTimeInput = document.getElementById('submissionTime');
-            
-            // Set exact submission date & time
-            if (submissionTimeInput) {
-                submissionTimeInput.value = new Date().toLocaleString();
-            }
+            if (submissionTimeInput) submissionTimeInput.value = new Date().toLocaleString();
 
             const data = new FormData(form);
             const submitBtn = form.querySelector('button[type="submit"]');
@@ -1076,25 +2403,21 @@ Essentials:
                 submitBtn.innerHTML = '<i class="fas fa-spinner animate-spin"></i> Connecting...';
             }
 
-            // High-end asynchronous post to Formspree
             fetch(form.action, {
                 method: form.method,
                 body: data,
-                headers: {
-                    'Accept': 'application/json'
-                }
+                headers: { 'Accept': 'application/json' }
             })
             .then(response => {
                 if (response.ok) {
-                    // Inject a premium success state inside the glass card
                     form.parentElement.innerHTML = `
-                        <div class="text-center py-10 space-y-6 animate-fade-in">
-                            <div class="w-20 h-20 bg-emerald-500/15 border border-emerald-500/45 rounded-full flex items-center justify-center mx-auto text-emerald-400 text-4xl shadow-lg shadow-emerald-500/10">
-                                <i class="fas fa-check-circle animate-bounce"></i>
+                        <div class="text-center py-10 space-y-6" style="text-align:center; padding:2.5rem 0;">
+                            <div style="width:5rem; height:5rem; background:rgba(16,185,129,0.15); border:1px solid rgba(16,185,129,0.45); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto; color:#34d399; font-size:2rem; box-shadow:0 0 30px rgba(16,185,129,0.3);">
+                                <i class="fas fa-check-circle"></i>
                             </div>
-                            <div class="space-y-2">
-                                <h4 class="text-2xl font-black text-white tracking-wide">Connection Established!</h4>
-                                <p class="text-slate-300 text-sm max-w-md mx-auto leading-relaxed">
+                            <div style="margin-top:1.5rem;">
+                                <h4 style="font-size:1.5rem; font-weight:800; color:#ffffff; letter-spacing:0.05em; margin-bottom:0.5rem;">Connection Established!</h4>
+                                <p style="color:#cbd5e1; font-size:0.875rem; max-width:28rem; margin:0 auto; line-height:1.7;">
                                     Your details have been securely routed to the AK Network database. Thank you for signing up, we will stay in touch.
                                 </p>
                             </div>
